@@ -1,6 +1,6 @@
-.App {
-    height: 100%;
-    width: 100%;
+.Home {
+    padding: 2px;
     box-sizing: border-box;
     overflow: hidden;
+    height: 92%;
 }
