@@ -20,4 +20,4 @@ export const API_URLS = {
   downloadNewPdf: (pdf_id) => `${API_ROOT}/new_pdf/downloads/${pdf_id}`,
 };
 
-export const LOCAL_STORAGE_TOKEN_KEY = '__myTokens_token__';
+export const LOCAL_STORAGE_TOKEN_KEY = '__myPdf_extractor_token__';
