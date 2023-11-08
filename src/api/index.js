@@ -63,14 +63,6 @@ export const signUp = async (name, email, password, confirmPassword) => {
 };
 
  //==============API for original pdf=========================
- export const uploadPdf = (content) => {
-  return customFetch(API_URLS.uploadPdf(), {
-    method: 'POST',
-    body: {
-      content,
-    },
-  });
-};
 
 export const getPdfPosts = () => {
   return customFetch(API_URLS.pdfPosts(), {
