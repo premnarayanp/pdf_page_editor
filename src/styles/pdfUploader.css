@@ -1,0 +1,38 @@
+.PdfUploader {
+    height: 350px;
+    width: 300px;
+    position: relative;
+    bottom: 0;
+    margin-left: 0;
+    border: solid 1px gray;
+    padding: 5px;
+    border-radius: 15px;
+    text-align: right;
+    box-sizing: border-box;
+    background-color: goldenrod;
+    position: absolute;
+}
+
+.PdfUploader img {
+    height: 85%;
+    width: 100%;
+}
+
+.PdfUploader button {
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pdfTitle {
+    width: 100%;
+    text-align: left;
+}
+
+.closeUploaderBtn {
+    background-color: gray;
+    margin-right: 30px;
+}
+
+.sendPdfBtn {
+    background-color: green;
+}

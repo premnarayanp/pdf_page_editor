@@ -1,0 +1,68 @@
+.PdfBox {
+    height: 100%;
+    width: 40%;
+    border: solid 1px grey;
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-left: 0;
+    padding: 0 20px;
+    position: relative;
+    background-color: aliceblue;
+}
+
+.pdfBoxHeader {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-top: 0;
+    background-color: palegoldenrod;
+    padding: 2px 5px;
+    border-radius: 10px;
+    border: solid 1px gray;
+}
+
+.pdfBoxHeader span {
+    color: gray;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.pdfInputSelector {
+    height: 30px;
+    width: 30px;
+    padding: 0;
+    position: relative;
+}
+
+.pdfInputSelector>input {
+    display: none;
+}
+
+.pdfInputSelector div {
+    background-color: rgb(118, 16, 16);
+    border-radius: 100%;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    box-sizing: border-box;
+    border: solid gray 1px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.pdfInputSelector div span {
+    color: white;
+    font-weight: 700;
+    font-size: 30px;
+    text-align: center;
+}
+
+.pdfBoxMain {
+    height: 90%;
+    width: 100%;
+    overflow-y: scroll;
+}
