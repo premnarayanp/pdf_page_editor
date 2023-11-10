@@ -50,21 +50,7 @@
     background-color: rgb(212, 228, 242);
 }
 
-
-/* ============chat box chatBoxMain============= */
-
-.pdfVersionBoxMain {
-    height: 80%;
-    width: 100%;
-    border: solid 1px gray;
-    border-left: 0;
-    padding: 5px 20px;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    border-bottom: 0;
-}
-
-.notChat {
+.noPdfVersion {
     text-align: center;
     color: brown;
     font-family: sans-serif;

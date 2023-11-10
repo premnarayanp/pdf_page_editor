@@ -4,6 +4,8 @@ import { StoreContext } from '../index';
 import {deletePdfToList} from '../actions/pdfActionCreator'
 import {loadPdf,downloadPdf} from '../api/axios';
 import {deletePdf} from '../api/index';
+import {addPdfPageList,showPdfVersionEditor,addPdfVersion} from '../actions/pdfVersionActionCreator'
+import { PDFDocument } from "pdf-lib";
 
  class Pdf extends Component {
   constructor(props) {
@@ -45,6 +47,26 @@ import {deletePdf} from '../api/index';
     }
   }
 
+  createNewPdfVersion=async ()=>{
+    const response= await loadPdf(this.props.pdfFile._id);
+    if(response.success){
+           //Build a URL from the file
+          //  var file = new Blob([response.data], {type: 'application/pdf'});
+          //  const fileURL = URL.createObjectURL(file);
+
+          const pdfDoc= await PDFDocument.load(response.data);
+          const pdfPageList= await pdfDoc.getPages();
+          console.log("===================pdfPageList============",pdfPageList.length)
+         this.props.store.dispatch(addPdfPageList(pdfPageList));
+         this.props.store.dispatch(addPdfVersion({pageList:[],pdf_id:this.props.pdfFile._id}));
+         this.props.store.dispatch(showPdfVersionEditor(true));
+
+         // const numOfPage=pdfPageList.length;
+          //console.log("===================pdfPageList============",pdfPageList)
+          //this.props.store.dispatch(addOriginalPdfFile(response.data,numOfPage));
+    }
+  }
+
   render(){
   const {pdfFile}=this.props;
     return(
@@ -58,6 +80,7 @@ import {deletePdf} from '../api/index';
                <button className="downloadBtn" onClick={()=>this.downloadPdfFile()}> download</button>
                <button className="openBtn" onClick={()=>this.openPdfFile()}> open</button>
                <button className="deleteBtn" onClick={()=>this.deletePdfFile(pdfFile._id)}>delete</button>
+               <button className="createNewBtn" onClick={()=>this.createNewPdfVersion(pdfFile._id)}>Create New</button>
              </div>
         </div>
     )

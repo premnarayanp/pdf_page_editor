@@ -1,0 +1,49 @@
+.PdfVersion {
+    height: 175px;
+    width: 350px;
+    margin-left: 0;
+    border: solid 1px gray;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 15px;
+    /* text-align: right; */
+    box-sizing: border-box;
+    background-color: lightsalmon;
+}
+
+.PdfVersion img {
+    height: 65%;
+    width: 70%;
+}
+
+.PdfVersion button {
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pdfTitle {
+    width: 100%;
+    text-align: left;
+}
+
+#pdfAction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+    background-color: azure;
+    border-radius: 7px;
+}
+
+.downloadBtn {
+    background-color: red;
+    margin-right: 30px;
+}
+
+.openBtn {
+    background-color: blue;
+}
+
+.chatBtn {
+    background-color: green;
+}

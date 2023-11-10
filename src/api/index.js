@@ -77,17 +77,18 @@ export const deletePdf =(pdf_id) => {
 }
 
 //==============API URL for new pdf versions(new pdf which edited)===============
-export const createNewPdf = (content) => {
+export const createNewPdf = (content,pdf_id) => {
   return customFetch(API_URLS.createNewPdf(), {
     method: 'POST',
     body: {
-      content,
+      pdf_id:pdf_id,
+      ...content,
     },
   });
 };
 
 
-export const editNewPdf = (content) => {
+export const editPdfVersion = (content) => {
   return customFetch(API_URLS.editNewPdf(), {
     method: 'POST',
     body: {
@@ -96,7 +97,7 @@ export const editNewPdf = (content) => {
   });
 };
 
-export const deleteNewPdf =(pdf_id) => {
+export const deletePdfVersion =(pdf_id) => {
   return customFetch(API_URLS.deleteNewPdf(pdf_id), {
     method: 'DELETE',
   });

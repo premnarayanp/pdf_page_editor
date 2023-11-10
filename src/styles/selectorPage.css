@@ -1,0 +1,28 @@
+.SelectorPage {
+    height: 50%;
+    width: 40%;
+    background-color: pink;
+    position: relative;
+    /* box-sizing: border-box; */
+    padding: 5px 10px;
+}
+
+.pdfOrPageOfPdf {
+    height: 80%;
+    width: 100%;
+}
+
+.pdfOrPageOfPdf img {
+    height: 100%;
+    width: 100%;
+}
+
+.pageAction {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    height: 20%;
+    width: 100%;
+    left: 0;
+}

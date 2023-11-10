@@ -19,12 +19,12 @@ class Home extends React.Component{
   }
 
    render(){
-    const {pdf}=this.props.store.getState();
+    const {pdf,pdfVersion}=this.props.store.getState();
 
     return (
       <div className="Home">
         <PdfBox  pdf={pdf}/>
-        <PdfVersionBox/>
+        <PdfVersionBox pdfVersion={pdfVersion}/>
       </div>
     );
   }
