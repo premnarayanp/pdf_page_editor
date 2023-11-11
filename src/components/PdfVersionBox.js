@@ -13,8 +13,9 @@ import {PdfVersionList,PdfVersionEditor} from './index'
 
 
   render(){
-    const {isShowPdfVersionEditor, pdfVersionList,pdfPageList,pdfVersion}=this.props.pdfVersion;
-    // console.log("========isShowPdfVersionEditor=======",isShowPdfVersionEditor);
+    const {isShowPdfVersionEditor, pdfVersionList,pdfPageList,pdfVersion,pdfDetail}=this.props.pdfVersion;
+    //console.log("========pdfDetail=======",pdfDetail);
+
     return(
           <div className="PdfVersionBox">
             <header className="pdfVersionBoxHeader">
@@ -22,8 +23,8 @@ import {PdfVersionList,PdfVersionEditor} from './index'
               <img src={require('../assets/pdf_thumbnail_2.png')} alt="pdf-pic" />
               </div>
 
-              <span className="pdfName">pdf name here</span>
-              <span className="pdfName">Total pdf version: 0</span>
+              <span className="pdfName">Name:- {pdfDetail && pdfDetail.originalname}</span>
+              <span className="pdfName">Total Version:- {pdfVersionList && pdfVersionList.length}</span>
               <button className="description" onClick={()=>this.handleDescriptionClick()}>
                  Description...
               </button>

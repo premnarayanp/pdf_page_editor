@@ -1,4 +1,5 @@
 import { 
+    ADD_PDF_DETAIL,
     ADD_PDF_VERSION,
     ADD_PDF_VERSION_LIST,
     ADD_PDF_VERSION_TO_LIST,
@@ -11,17 +12,25 @@ import {
    } from "../actions/actionType"
 
 
+
 const initialPdfVersionState={
     pdfVersion:null,//pdf v ersion is an object which has an array of pdf page order numbering value
     pdfVersionList:[],
     isShowPdfVersionEditor:false,
     //originalPdfFile:null,
-    pdfPageList:null
+    pdfPageList:null,
+    pdfDetail:null
 };
 
     export  default function pdfVersion(state=initialPdfVersionState,action){
 
         switch(action.type){
+
+            case ADD_PDF_DETAIL:
+                return{
+                    ...state,
+                    pdfDetail:action.pdfDetail
+                }
 
             case ADD_PDF_VERSION:
                 return {

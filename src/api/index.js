@@ -92,14 +92,20 @@ export const editPdfVersion = (content) => {
   return customFetch(API_URLS.editNewPdf(), {
     method: 'POST',
     body: {
-      content,
+     ...content,
     },
   });
 };
 
-export const deletePdfVersion =(pdf_id) => {
-  return customFetch(API_URLS.deleteNewPdf(pdf_id), {
+export const deletePdfVersion =(pdfVersion_id) => {
+  return customFetch(API_URLS.deleteNewPdf(pdfVersion_id), {
     method: 'DELETE',
   });
 }
 
+
+export const getPdfVersionPosts = (pdf_id) => {
+  return customFetch(API_URLS.pdfVersionPosts(pdf_id), {
+    method: 'GET',
+  });
+};

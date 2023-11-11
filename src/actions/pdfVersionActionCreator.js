@@ -1,4 +1,5 @@
 import {  
+    ADD_PDF_DETAIL,
     ADD_PDF_VERSION_LIST,
     ADD_PDF_VERSION_TO_LIST, 
     DELETE_PDF_VERSION_TO_LIST,
@@ -12,6 +13,13 @@ import {
 
 
 //action creator for  PDFs file 
+
+export function addPdfDetail(pdfDetail){
+    return{
+        type:ADD_PDF_DETAIL,
+        pdfDetail
+    }
+    }
 
 export function addPdfVersion(pdfVersion){
     return{

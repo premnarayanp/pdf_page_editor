@@ -4,7 +4,7 @@ import { getPdfPosts} from '../api/index';
 import {addPdfList} from '../actions/pdfActionCreator'
 import { StoreContext } from '../index';
 import {PdfBox ,PdfVersionBox} from '../components/index';
-
+import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pdfVersionActionCreator'
 
 
 class Home extends React.Component{
@@ -13,8 +13,11 @@ class Home extends React.Component{
      const {store}=this.props;
      const response=await getPdfPosts();
      if(response.success && response.data.pdfList[0]){
+      store.dispatch(addPdfDetail(response.data.pdfList[0]));
       store.dispatch(addPdfList(response.data.pdfList));
-       //console.log("=========res=========",res);
+      store.dispatch(addPdfVersionList(response.data.pdfList[0].pdfVersionList));
+
+       //console.log("=========response.data.pdfList=========",response.data.pdfList);
      }
   }
 

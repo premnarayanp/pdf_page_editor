@@ -15,9 +15,10 @@ export const API_URLS = {
   //API URL for original pdf versions(new pdf which edited)
   createNewPdf: () => `${API_ROOT}/pdf_version/create`,
   editNewPdf: () => `${API_ROOT}/pdf_version/edit`,
-  loadNewPdf: (pdf_id) => `${API_ROOT}/pdf_version/loads/${pdf_id}`,
-  deleteNewPdf: (pdf_id) => `${API_ROOT}/pdf_version/delete/${pdf_id}`,
-  downloadNewPdf: (pdf_id) => `${API_ROOT}/pdf_version/downloads/${pdf_id}`,
+  loadNewPdf: (pdfVersion_id) => `${API_ROOT}/pdf_version/loads/${pdfVersion_id}`,
+  deleteNewPdf: (pdfVersion_id) => `${API_ROOT}/pdf_version/delete/${pdfVersion_id}`,
+  downloadNewPdf: (pdfVersion_id) => `${API_ROOT}/pdf_version/downloads/${pdfVersion_id}`,
+  pdfVersionPosts: (pdf_id) => `${API_ROOT}/pdf_version/posts/${pdf_id}`,
 };
 
 export const LOCAL_STORAGE_TOKEN_KEY = '__myPdf_extractor_token__';
