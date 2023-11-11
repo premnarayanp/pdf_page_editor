@@ -65,6 +65,7 @@ import { API_URLS,LOCAL_STORAGE_TOKEN_KEY } from '../utils';
 };
 
 
+//======================for pdf======================
 export const uploadPdf = (content) => {
     return customFetch(API_URLS.uploadPdf(), {
       method: 'POST',
@@ -89,6 +90,24 @@ export const uploadPdf = (content) => {
       });
     }
 
+//=====================pdf_version====================
+
+    //view pdf_version /load from server and view on browser
+   export const loadPdfVersion =async (pdfVersion_id) => {
+    return customFetch(API_URLS.loadNewPdf(pdfVersion_id), {
+      method: 'GET',
+      responseType:'arraybuffer'
+    });
+  }
+
+  export const downloadPdfVersion =async (pdfVersion_id) => {
+    return customFetch(API_URLS.downloadNewPdf(pdfVersion_id), {
+      method: 'GET',
+      responseType:'arraybuffer'
+    });
+  }
+
+
     // export const deletePdf =async (pdf_id) => {
     //   return customFetch(API_URLS.deletePdf(pdf_id), {
     //     method: 'DELETE',
@@ -97,24 +116,3 @@ export const uploadPdf = (content) => {
     //     }
     //   });
     // }
-
-
-
-//===========================================================
-//Number of way to fetch data using axios
-    //const response = await axios.post(url,formData,{header:header})
-       
-    //   const response= await axios(API_URLS.loadPdf(pdf_id), {
-    //     headers:headers,
-    //     responseType:'arraybuffer'
-    //  })
-    // 
-    
-    // const response = await axios(url,{
-    //     data:formData,
-    //     method:'POST',
-    //     headers: headers
-    // });
-
-    // const data= await response.data;
-    //console.log("========data=======",data);
