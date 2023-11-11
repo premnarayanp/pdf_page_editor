@@ -9,4 +9,7 @@
     overflow: auto;
     overflow-x: hidden;
     white-space: nowrap;
+    padding-top: 5px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
 }

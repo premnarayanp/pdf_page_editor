@@ -1,7 +1,12 @@
 import{Component} from "react";
 import { StoreContext } from '../index';
 import '../styles/pdfVersionBox.css';
+import {loadPdf} from '../api/axios';
+import {createNewPdf} from '../api/index';
 import {PdfVersionList,PdfVersionEditor} from './index'
+
+import { PDFDocument } from "pdf-lib";
+import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList} from '../actions/pdfVersionActionCreator'
 
 //right sidebar
   class PdfVersionBox  extends Component {
@@ -11,10 +16,40 @@ import {PdfVersionList,PdfVersionEditor} from './index'
     };
   }
 
+  createNewPdfVersion=async ()=>{
+    const pdfDetail=this.props.pdfVersion.pdfDetail;
+    const response= await loadPdf(pdfDetail._id);
+    if(response.success){
+
+          const pdfDoc= await PDFDocument.load(response.data);
+          const pdfPageList= await pdfDoc.getPages();
+
+         this.props.store.dispatch(addPdfPageList(pdfPageList));
+         this.props.store.dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
+         this.props.store.dispatch(showPdfVersionEditor(true));
+    }
+  }
+
+  closeEditor=()=>{
+    this.props.store.dispatch(showPdfVersionEditor(false));
+  }
+
+//create new pdf version on server /create new pdf
+   finalCreateNewPdfVersion =async()=>{
+    const pdfVersion=this.props.pdfVersion.pdfVersion;
+
+    const response= await createNewPdf({pageList:pdfVersion.pageList},pdfVersion.pdf_id);
+    if(response.success){
+     // console.log("===================pdfVersion==============",response.data)
+      this.props.store.dispatch(addPdfVersionToList(response.data));
+      this.props.store.dispatch(showPdfVersionEditor(false));
+    }
+  }
+
 
   render(){
-    const {isShowPdfVersionEditor, pdfVersionList,pdfPageList,pdfVersion,pdfDetail}=this.props.pdfVersion;
     //console.log("========pdfDetail=======",pdfDetail);
+    const {isShowPdfVersionEditor, pdfVersionList,pdfPageList,pdfVersion,pdfDetail}=this.props.pdfVersion;
 
     return(
           <div className="PdfVersionBox">
@@ -25,9 +60,14 @@ import {PdfVersionList,PdfVersionEditor} from './index'
 
               <span className="pdfName">Name:- {pdfDetail && pdfDetail.originalname}</span>
               <span className="pdfName">Total Version:- {pdfVersionList && pdfVersionList.length}</span>
-              <button className="description" onClick={()=>this.handleDescriptionClick()}>
-                 Description...
-              </button>
+              {
+                isShowPdfVersionEditor? 
+                <div>
+                   <button className="closeBtn" onClick={()=>this.closeEditor()}>Close</button>
+                   <button className="final_doneBtn" onClick={()=>this.finalCreateNewPdfVersion(pdfVersion)} >Done</button>
+                </div>
+                :<button className="createNewBtn" onClick={()=>this.createNewPdfVersion()}>Create New</button>
+              }
             </header>
 
             {isShowPdfVersionEditor?

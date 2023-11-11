@@ -4,8 +4,7 @@ import { StoreContext } from '../index';
 import {deletePdfToList} from '../actions/pdfActionCreator'
 import {loadPdf,downloadPdf} from '../api/axios';
 import {deletePdf,getPdfVersionPosts} from '../api/index';
-import {addPdfPageList,showPdfVersionEditor,addPdfVersion,addPdfVersionList,addPdfDetail} from '../actions/pdfVersionActionCreator'
-import { PDFDocument } from "pdf-lib";
+import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pdfVersionActionCreator'
 
  class Pdf extends Component {
   constructor(props) {
@@ -50,24 +49,6 @@ import { PDFDocument } from "pdf-lib";
     }
   }
 
-  createNewPdfVersion=async ()=>{
-    const response= await loadPdf(this.props.pdfFile._id);
-    if(response.success){
-           //Build a URL from the file
-          //  var file = new Blob([response.data], {type: 'application/pdf'});
-          //  const fileURL = URL.createObjectURL(file);
-
-          const pdfDoc= await PDFDocument.load(response.data);
-          const pdfPageList= await pdfDoc.getPages();
-          //console.log("===================pdfPageList============",pdfPageList.length)
-         this.props.store.dispatch(addPdfPageList(pdfPageList));
-         this.props.store.dispatch(addPdfDetail(this.props.pdfFile));
-         this.props.store.dispatch(addPdfVersionList(this.props.pdfFile.pdfVersionList));
-         this.props.store.dispatch(addPdfVersion({pageList:[],pdf_id:this.props.pdfFile._id}));
-         this.props.store.dispatch(showPdfVersionEditor(true));
-    }
-  }
-
   openVersionList=async()=>{
 
     const response = await getPdfVersionPosts(this.props.pdfFile._id);
@@ -94,7 +75,7 @@ import { PDFDocument } from "pdf-lib";
                <button className="downloadBtn" onClick={()=>this.downloadPdfFile()}> download</button>
                <button className="openBtn" onClick={()=>this.openPdfFile()}> open</button>
                <button className="deleteBtn" onClick={()=>this.deletePdfFile(pdfFile._id)}>delete</button>
-               <button className="createNewBtn" onClick={()=>this.createNewPdfVersion(pdfFile._id)}>Create New</button>
+               <button className="openBtn" onClick={()=>this.openVersionList()}>Versions</button>
              </div>
         </div>
     )

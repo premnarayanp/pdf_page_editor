@@ -56,6 +56,20 @@
     font-family: sans-serif;
 }
 
+.final_doneBtn {
+    margin-left: 20px;
+    background: rgb(131, 224, 131);
+    border-radius: 8px;
+    color: white;
+}
+
+.closeBtn {
+    margin-right: 10px;
+    background-color: red;
+    border-radius: 8px;
+    color: white;
+}
+
 
 /* pdfVersionBox footer */
 

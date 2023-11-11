@@ -12,10 +12,10 @@ import {SelectorPage} from './index'
   }
 
   render(){
-
+    console.log("==============inside PdfVersionSelector====================");
     const pdfPageList=this.props.pdfPageList;
 
-     console.log("========page========",pdfPageList );
+     //console.log("========page========",pdfPageList );
       return(
           <div className="PdfVersionSelector">
           {
