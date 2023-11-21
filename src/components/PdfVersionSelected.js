@@ -1,7 +1,9 @@
 import{Component} from "react";
-import { StoreContext } from '../index';
 import '../styles/pdfVersionSelected.css';
 import {SelectedPage} from './index'
+import { connect } from 'react-redux';
+//import { connect } from "../index";
+//import { StoreContext } from '../index';
 
   class PdfVersionSelected  extends Component {
   constructor(props) {
@@ -11,11 +13,9 @@ import {SelectedPage} from './index'
   }
 
   render(){
-
-    console.log("==============inside PdfVersionSelected====================");
-    const {pdfPageList,pdfVersion}=this.props;
-    const pageList=pdfVersion.pageList
-    //console.log("========page========",pdfPageList );
+    console.log("===================PdfVersionSelected Rendered=====================")
+    const {pdfPageList,currentPdfVersion}=this.props;
+    const pageList=currentPdfVersion.pageList
 
      return(
       <div className="PdfVersionSelected">
@@ -25,6 +25,7 @@ import {SelectedPage} from './index'
                     key={`SelectedPage-${pageIndex}`}
                     pageNumber={pageIndex}
                     pdfPage={pdfPageList[pageIndex]}
+                    dispatch={this.props.dispatch}
                   />
              ))
 
@@ -45,14 +46,25 @@ import {SelectedPage} from './index'
 
 
 
+//===============way-1 PdfVersionSelectorWrapper to get store/state===================
+// class PdfVersionSelectedWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//         {(store) => <PdfVersionSelected store={store} pdfVersion={this.props.pdfVersion}  pdfPageList={this.props.pdfPageList} inputCheckBoxRef={this.props.inputCheckBoxRef}/>}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+// export default PdfVersionSelectedWrapper;
 
-class PdfVersionSelectedWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <PdfVersionSelected store={store} pdfVersion={this.props.pdfVersion}  pdfPageList={this.props.pdfPageList}/>}
-      </StoreContext.Consumer>
-    );
+//====================way-2 connect() to get/subscribe store/state================
+function mapStateToProps(state){
+  const pdfVersion=state.pdfVersion;
+  return{
+    pdfPageList:pdfVersion.pdfPageList,
+    currentPdfVersion:pdfVersion.currentPdfVersion
   }
 }
-export default PdfVersionSelectedWrapper;
+const connectedPdfVersionSelectedComponent=connect(mapStateToProps)(PdfVersionSelected);
+export default connectedPdfVersionSelectedComponent;

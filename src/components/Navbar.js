@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {logout} from'../actions/authActionCreator';
 import '../styles/navbar.css'
+import { connect } from 'react-redux';
+//import { connect } from '../index';
 
  class Navbar extends Component {
   constructor(props) {
@@ -11,12 +13,12 @@ import '../styles/navbar.css'
   }
 
  logoutFromDevice=()=>{
-    this.props.store.dispatch(logout());
+    this.props.dispatch(logout());
     //console.log("====================logout=====================")
   }
   
   render() {
-
+    console.log("========================Navbar Rendered=====================")
     const {auth}=this.props;
     return (
       auth.user?
@@ -45,5 +47,13 @@ import '../styles/navbar.css'
     );
   }
 }
+//export default Navbar;
 
-export default Navbar;
+
+function mapStateToProps(state){
+  return{
+   auth:state.auth
+  }
+}
+const connectedNavbarComponent=connect(mapStateToProps)(Navbar);
+export default connectedNavbarComponent;

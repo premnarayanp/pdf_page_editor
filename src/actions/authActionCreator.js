@@ -107,7 +107,6 @@ return response;
 
 
 export const logout = () => {
-
 console.log("====================logout=====================")
 removeItemFromLocalStorage(LOCAL_STORAGE_TOKEN_KEY);
 return function(dispatch){

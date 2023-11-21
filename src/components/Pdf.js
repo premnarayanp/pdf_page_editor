@@ -1,10 +1,10 @@
 import{Component} from "react"
 import '../styles/pdf.css';
-import { StoreContext } from '../index';
 import {deletePdfToList} from '../actions/pdfActionCreator'
 import {loadPdf,downloadPdf} from '../api/axios';
 import {deletePdf,getPdfVersionPosts} from '../api/index';
-import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pdfVersionActionCreator'
+import {showPdfVersionEditor,addPdfVersionList,addPdfDetail,addPdfVersion,deleteAllPdfVersionData} from '../actions/pdfVersionActionCreator'
+//import { StoreContext } from '../index';
 
  class Pdf extends Component {
   constructor(props) {
@@ -42,9 +42,11 @@ import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pd
   deletePdfFile=async()=>{
     const response= await deletePdf(this.props.pdfFile._id);
     if(response.success){
-      this.props.store.dispatch(deletePdfToList(response.data.pdf));
-      this.props.store.dispatch(addPdfDetail(null));
-      this.props.store.dispatch(addPdfVersionList([]));
+      this.props.dispatch(deletePdfToList(response.data.pdf));
+      this.props.dispatch(deleteAllPdfVersionData(this.props.pdfFile._id));
+
+      // this.props.dispatch(addPdfDetail(null));
+      // this.props.dispatch(addPdfVersionList([]));
 
     }
   }
@@ -53,10 +55,11 @@ import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pd
 
     const response = await getPdfVersionPosts(this.props.pdfFile._id);
     if(response.success){
-     console.log("=============response=========",response)
-      this.props.store.dispatch(addPdfDetail(this.props.pdfFile));
-      this.props.store.dispatch(addPdfVersionList(response.data.pdfVersionList));
-      this.props.store.dispatch(showPdfVersionEditor(false));
+      //this.props.dispatch(addPdfPageList([]));//erase previous pdfPageList,and after new pdfPageList will we added when i click "create new "  inside pdfVersionBox in header
+      this.props.dispatch(addPdfDetail(this.props.pdfFile));
+      this.props.dispatch(addPdfVersionList(response.data.pdfVersionList));
+      this.props.dispatch(showPdfVersionEditor(false));
+      this.props.dispatch(addPdfVersion(null));
     }else{
 
     }
@@ -64,6 +67,7 @@ import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pd
 
   render(){
   const {pdfFile}=this.props;
+  console.log("===================Pdf Rendered=====================")
     return(
         <div className="Pdf">
              <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"  onClick={()=>this.openVersionList()}/>
@@ -81,13 +85,14 @@ import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pd
     )
   }
 }
+export default Pdf
 
-export default class PdfWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-           {(store) => <Pdf store={store}  pdfFile={this.props.pdfFile}/>}
-      </StoreContext.Consumer>
-    );
-  }
-}
+// export default class PdfWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//            {(store) => <Pdf store={store}  pdfFile={this.props.pdfFile}/>}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }

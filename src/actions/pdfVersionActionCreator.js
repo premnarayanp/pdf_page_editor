@@ -8,7 +8,8 @@ import {
     ADD_PDF_VERSION,
     ADD_PAGE_NUM_IN_VERSION,
     DELETE_PAGE_NUM_IN_VERSION,
-    ADD_PDF_PAGE_LIST
+    ADD_PDF_PAGE_LIST,
+    DELETE_All_PDF_VERSION_DATA
    } from "./actionType"
 
 
@@ -72,7 +73,7 @@ return{
 }
 }
 
-
+//real page of pdf 
 export function addPdfPageList(pdfPageList){
     return{
         type:ADD_PDF_PAGE_LIST,
@@ -80,10 +81,9 @@ export function addPdfPageList(pdfPageList){
     }
     }
 
-// export function addOriginalPdfFile(pdfFile,numOfPage){
-//     return{
-//         type:ADD_ORIGINAL_PDF_FILE,
-//         pdfFile,
-//         numOfPage,
-//     }
-//     }
+export function deleteAllPdfVersionData(pdf_id){
+    return{
+        type:DELETE_All_PDF_VERSION_DATA,
+        pdf_id:pdf_id
+    }
+}

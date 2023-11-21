@@ -41,7 +41,7 @@ const handleDeletePdPdfVersion=async(pdfVersion_id)=>{
   const response= await deletePdfVersion(pdfVersion_id);
   if(response.success){
     //console.log("=====pdfVersion==========",response.data)
-    props.store.dispatch(deletePdfVersionToList(response.data.pdfVersion));
+    props.dispatch(deletePdfVersionToList(response.data.pdfVersion));
 
   }
 }
@@ -59,6 +59,9 @@ const handleDeletePdPdfVersion=async(pdfVersion_id)=>{
                <button className="deleteBtn" onClick={()=>handleDeletePdPdfVersion(pdfVersion._id)}>delete</button>
                <button className="createNewBtn" onClick={()=>this.editPdfVersion(pdfVersion._id)}>Edit</button>
              </div>
+             {
+              console.log("===================PdfVersion Rendered=====================")
+             }
         </div>
   );
 };

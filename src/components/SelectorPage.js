@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useState} from 'react';
 //import { useToasts } from 'react-toast-notifications';
 import  '../styles/selectorPage.css';
-import {addPdfVersion,addPageNumInPdfVersion,deletePageNumInPdfVersion} from '../actions/pdfVersionActionCreator'
+import {addPageNumInPdfVersion,deletePageNumInPdfVersion} from '../actions/pdfVersionActionCreator'
 
 const SelectorPage = (props) => {
   const[checked,setChecked]=useState(false);
 
   function handleInputChecked(e){
-    //  console.log("=======e.target.checked=======",e);
+   console.log("=======e.target.checked=======",e);
      setChecked(e.target.checked);
     if(e.target.checked){
-       props.store.dispatch(addPageNumInPdfVersion(props.pageNumber));
+       props.dispatch(addPageNumInPdfVersion(props.pageNumber));
     }else{
-      props.store.dispatch(deletePageNumInPdfVersion(props.pageNumber));
+      props.dispatch(deletePageNumInPdfVersion(props.pageNumber));
     }
   } 
 
@@ -25,6 +25,9 @@ const SelectorPage = (props) => {
         <span> Page Number:{props.pageNumber}</span>
         <input className="pageToggle" type="checkbox" checked={checked} onChange={handleInputChecked} />
       </div>
+      {
+        console.log("===================Selector Rendered=====================")
+      }
     </div>
   );
 };

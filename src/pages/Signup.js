@@ -11,8 +11,11 @@ const Signup = (props) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [signingUp, setSigningUp] = useState('');
   const { addToast } = useToasts();
-  const {auth} =props.store.getState();
+
+  const {auth,dispatch} =props
   const {isSignUpSuccess,message}=auth;
+  // const {auth} =props.store.getState();
+  // const {isSignUpSuccess,message}=auth;
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +42,8 @@ const Signup = (props) => {
     if (error) {
       return setSigningUp(false);
     }
-     //props.store.dispatch(register(name, email, password, confirmPassword));
-     const response= await register(name, email, password, confirmPassword,props.store.dispatch);
+     //dispatch(register(name, email, password, confirmPassword));
+     const response= await register(name, email, password, confirmPassword,dispatch);
  
      setSigningUp(false); 
      if (response.success) {

@@ -1,8 +1,10 @@
 import{Component} from "react";
-import { StoreContext } from '../index';
 import { PdfUploader,Pdf } from "./index";
 import '../styles/pdfBox.css'
 import  {showSelectedPdf} from '../actions/pdfActionCreator'
+import { connect } from 'react-redux';
+//import { connect } from '../index';
+//import { StoreContext } from '../index';
 
 //left sidebar
   class PdfBox extends Component {
@@ -13,14 +15,14 @@ import  {showSelectedPdf} from '../actions/pdfActionCreator'
     };
   }
 
-
   handlePdfSelect =(e)=>{
     this.setState({selectedPdfFile:e.target.files[0]})
-    this.props.store.dispatch(showSelectedPdf(true));
+    this.props.dispatch(showSelectedPdf(true));
+    //this.props.store.dispatch(showSelectedPdf(true));
   }
 
   render(){
-    //console.log("===========pdf===============",this.props)
+    console.log("========================PdfBox Rendered=====================")
      const {isShowSelectedPdf,pdfList}=this.props.pdf;
      
     return(
@@ -41,7 +43,7 @@ import  {showSelectedPdf} from '../actions/pdfActionCreator'
             <div className="pdfBoxMain">
               {pdfList.map((pdfFile,index) => (
                    <Pdf 
-                     pdfFile={pdfFile} store={this.props.store}
+                     pdfFile={pdfFile} dispatch={this.props.dispatch}
                      key={`pdfFile-${index}`}
                    />
               ))}
@@ -51,25 +53,32 @@ import  {showSelectedPdf} from '../actions/pdfActionCreator'
               }
 
               {isShowSelectedPdf &&
-                     <PdfUploader selectedPdfFile={this.state.selectedPdfFile}/>
+                     <PdfUploader  dispatch={this.props.dispatch} selectedPdfFile={this.state.selectedPdfFile}/>
               }
             </div>
-
-
            
         </div>
     )
   }
 }
 
+//===============way-1 PdfBoxWrapper to get store/state===================
+// class PdfBoxWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//         {(store) => <PdfBox store={store} pdf={this.props.pdf} />}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+//export default PdfBoxWrapper;
 
-class PdfBoxWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <PdfBox store={store} pdf={this.props.pdf} />}
-      </StoreContext.Consumer>
-    );
+//====================way-2 connect() to get/subscribe store/state================
+function mapStateToProps(state){
+  return{
+   pdf:state.pdf
   }
 }
-export default PdfBoxWrapper;
+const connectedPdfBoxComponent=connect(mapStateToProps)(PdfBox);
+export default connectedPdfBoxComponent;

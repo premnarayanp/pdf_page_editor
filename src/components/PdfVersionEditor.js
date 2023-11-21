@@ -1,7 +1,7 @@
 import{Component} from "react";
-import { StoreContext } from '../index';
 import '../styles/pdfVersionEditor.css';
 import {PdfVersionSelected,PdfVersionSelector} from './index'
+//import { StoreContext } from '../index';
 
   class PdfVersionEditor  extends Component {
   constructor(props) {
@@ -12,30 +12,14 @@ import {PdfVersionSelected,PdfVersionSelector} from './index'
 
 
   render(){
-
-    const {pdfPageList,pdfVersion}=this.props;
-
+    console.log("===================PdfVersionEditor Rendered=====================")
       return(
           <div className="PdfVersionEditor">
-            <PdfVersionSelected pdfPageList={pdfPageList} pdfVersion={pdfVersion}/>
-            <PdfVersionSelector pdfPageList={pdfPageList} pdfVersion={pdfVersion}/>
+            <PdfVersionSelected  />
+            <PdfVersionSelector  />
           </div>
-
+         
     )
   }
 }
-
-
-class PdfVersionEditorWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <PdfVersionEditor store={store} 
-         pdfPageList={this.props.pdfPageList}
-         pdfVersion={this.props.pdfVersion}
-        />}
-      </StoreContext.Consumer>
-    );
-  }
-}
-export default PdfVersionEditorWrapper;
+export default PdfVersionEditor

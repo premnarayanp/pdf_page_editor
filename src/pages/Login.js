@@ -1,4 +1,4 @@
-import { useState } from 'react';
+ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import styles from '../styles/login.module.css';
@@ -9,7 +9,7 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const { addToast } = useToasts();
-  const {auth} =props.store.getState();
+  const {auth,dispatch} =props
   const {isLoginSuccess,user,message}=auth;
 
   const handleSubmit = async (e) => {
@@ -22,8 +22,8 @@ const Login = (props) => {
       });
     }
      
-    // props.store.dispatch(login(email, password));
-    const response= await login(email, password,props.store.dispatch);
+    //dispatch(login(email, password));
+    const response= await login(email, password,dispatch);
 
     if (response.success && response.data.user) {
       

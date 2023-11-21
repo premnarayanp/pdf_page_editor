@@ -1,7 +1,6 @@
 .PdfUploader {
     height: 350px;
     width: 300px;
-    position: relative;
     bottom: 0;
     margin-left: 0;
     border: solid 1px gray;

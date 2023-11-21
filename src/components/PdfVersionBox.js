@@ -1,15 +1,17 @@
 import{Component} from "react";
-import { StoreContext } from '../index';
-import '../styles/pdfVersionBox.css';
 import {loadPdf} from '../api/axios';
 import {createNewPdf} from '../api/index';
 import {PdfVersionList,PdfVersionEditor} from './index'
 
 import { PDFDocument } from "pdf-lib";
 import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList} from '../actions/pdfVersionActionCreator'
+import '../styles/pdfVersionBox.css';
+import { connect } from 'react-redux';
+//import { connect } from "../index";
+//import { StoreContext } from '../index';
 
 //right sidebar
-  class PdfVersionBox  extends Component {
+class PdfVersionBox  extends Component {
   constructor(props) {
     super(props);
     this.state = {  
@@ -17,43 +19,57 @@ import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList} f
   }
 
   createNewPdfVersion=async ()=>{
-    const pdfDetail=this.props.pdfVersion.pdfDetail;
-    const response= await loadPdf(pdfDetail._id);
-    if(response.success){
+    const {currentPdfVersion,pdfDetail}=this.props;
+    //const {pdfPageList,pdfDetail}=this.props.pdfVersion;
 
+    //same pdf load  from server only one time
+    //if pdfPageList already then don,t  need to load again and ain for same pdf
+    //But When i want to work on another pdf so when i click version (in Pdf component) to show all version of my current pdf on that time i set pdf pdfPageList=[] so length will we 0 so i load it, 
+    //pdfPageList=[] represent you need to load pdf because you are working on new pdf which not loaded, but length>0 mens i want create new version of same pdf which already loaded
+    
+    if(!currentPdfVersion){
+      const response= await loadPdf(pdfDetail._id);
+      if(response.success){
           const pdfDoc= await PDFDocument.load(response.data);
           const pdfPageList= await pdfDoc.getPages();
 
-         this.props.store.dispatch(addPdfPageList(pdfPageList));
-         this.props.store.dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
-         this.props.store.dispatch(showPdfVersionEditor(true));
+         this.props.dispatch(addPdfPageList(pdfPageList));
+         this.props.dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
+         this.props.dispatch(showPdfVersionEditor(true));
+      }
+    }else{
+      //if already  pdfPageList then just open editor and update pdfVersion pageList=[],
+         this.props.dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
+         this.props.dispatch(showPdfVersionEditor(true));
     }
   }
 
   closeEditor=()=>{
-    this.props.store.dispatch(showPdfVersionEditor(false));
+    this.props.dispatch(showPdfVersionEditor(false));
   }
 
 //create new pdf version on server /create new pdf
    finalCreateNewPdfVersion =async()=>{
-    const pdfVersion=this.props.pdfVersion.pdfVersion;
+    const currentPdfVersion=this.props.currentPdfVersion;
 
-    const response= await createNewPdf({pageList:pdfVersion.pageList},pdfVersion.pdf_id);
+    const response= await createNewPdf({pageList:currentPdfVersion.pageList},currentPdfVersion.pdf_id);
     if(response.success){
      // console.log("===================pdfVersion==============",response.data)
-      this.props.store.dispatch(addPdfVersionToList(response.data));
-      this.props.store.dispatch(showPdfVersionEditor(false));
+      this.props.dispatch(addPdfVersionToList(response.data));
+      this.props.dispatch(showPdfVersionEditor(false));
     }
   }
 
 
   render(){
-    //console.log("========pdfDetail=======",pdfDetail);
-    const {isShowPdfVersionEditor, pdfVersionList,pdfPageList,pdfVersion,pdfDetail}=this.props.pdfVersion;
+    console.log("==================PdfVersionBox Rendered=====================")
+    const {isShowPdfVersionEditor,currentPdfVersion,pdfDetail,pdfVersionList}=this.props;
 
     return(
           <div className="PdfVersionBox">
-            <header className="pdfVersionBoxHeader">
+            {
+              pdfDetail &&
+              <header className="pdfVersionBoxHeader">
               <div className='roundedImageContainer'>
               <img src={require('../assets/pdf_thumbnail_2.png')} alt="pdf-pic" />
               </div>
@@ -64,15 +80,16 @@ import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList} f
                 isShowPdfVersionEditor? 
                 <div>
                    <button className="closeBtn" onClick={()=>this.closeEditor()}>Close</button>
-                   <button className="final_doneBtn" onClick={()=>this.finalCreateNewPdfVersion(pdfVersion)} >Done</button>
+                   <button className="final_doneBtn" onClick={()=>this.finalCreateNewPdfVersion(currentPdfVersion)} >Done</button>
                 </div>
                 :<button className="createNewBtn" onClick={()=>this.createNewPdfVersion()}>Create New</button>
               }
             </header>
+            }
 
             {isShowPdfVersionEditor?
-                     <PdfVersionEditor pdfPageList={pdfPageList} pdfVersion={pdfVersion}/>
-                    :<PdfVersionList pdfVersionList={pdfVersionList} />
+                     <PdfVersionEditor/>
+                    :<PdfVersionList  dispatch={this.props.dispatch} pdfVersionList={pdfVersionList} />
               }
             
           </div>
@@ -81,14 +98,27 @@ import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList} f
   } 
 }
 
+//===============way-1 PdfVersionBoxWrapper to get store/state===================
+// class PdfVersionBoxWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer> 
+//         {(store) => <PdfVersionBox store={store} pdfVersion={this.props.pdfVersion} />}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+// export default PdfVersionBoxWrapper;
 
-class PdfVersionBoxWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <PdfVersionBox store={store} pdfVersion={this.props.pdfVersion} />}
-      </StoreContext.Consumer>
-    );
+//====================way-2 connect() to get/subscribe store/state================
+function mapStateToProps(state){
+  const pdfVersion=state.pdfVersion;
+  return{
+    currentPdfVersion:pdfVersion.currentPdfVersion,
+    pdfDetail:pdfVersion.pdfDetail,
+    isShowPdfVersionEditor:pdfVersion.isShowPdfVersionEditor,
+    pdfVersionList:pdfVersion.pdfVersionList,
   }
 }
-export default PdfVersionBoxWrapper;
+const connectedPdfVersionBoxComponent=connect(mapStateToProps)(PdfVersionBox);
+export default connectedPdfVersionBoxComponent;

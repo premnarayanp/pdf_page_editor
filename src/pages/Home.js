@@ -1,46 +1,56 @@
 import '../styles/home.css';
-import React,{Component} from 'react';
+import React from 'react';
 import { getPdfPosts} from '../api/index';
-import {addPdfList} from '../actions/pdfActionCreator'
-import { StoreContext } from '../index';
 import {PdfBox ,PdfVersionBox} from '../components/index';
-import {showPdfVersionEditor,addPdfVersionList,addPdfDetail} from '../actions/pdfVersionActionCreator'
-
+import {addPdfVersionList,addPdfDetail} from '../actions/pdfVersionActionCreator';
+import {addPdfList} from '../actions/pdfActionCreator'
+import { connect } from 'react-redux';
+//import { connect } from '../index';
+//import { StoreContext } from '../index';
 
 class Home extends React.Component{
 
   async componentDidMount(){
-     const {store}=this.props;
+     //const {store}=this.props;
+     const {dispatch}=this.props;
      const response=await getPdfPosts();
      if(response.success && response.data.pdfList[0]){
-      store.dispatch(addPdfDetail(response.data.pdfList[0]));
-      store.dispatch(addPdfList(response.data.pdfList));
-      store.dispatch(addPdfVersionList(response.data.pdfList[0].pdfVersionList));
-
-       //console.log("=========response.data.pdfList=========",response.data.pdfList);
+      dispatch(addPdfDetail(response.data.pdfList[0]));
+      dispatch(addPdfList(response.data.pdfList));
+      dispatch(addPdfVersionList(response.data.pdfList[0].pdfVersionList));
      }
   }
 
    render(){
-    const {pdf,pdfVersion}=this.props.store.getState();
-
+    //const {pdf,pdfVersion}=this.props.store.getState();
+    //const {pdf,pdfVersion}=this.props
+    console.log("========================Home Rendered=====================")
     return (
       <div className="Home">
-        <PdfBox  pdf={pdf}/>
-        <PdfVersionBox pdfVersion={pdfVersion}/>
+        <PdfBox/>
+        <PdfVersionBox/>
       </div>
     );
   }
 
 }
+//export default Home
  
-class HomeWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <Home store={store} />}
-      </StoreContext.Consumer>
-    );
+ // class HomeWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//         {(store) => <Home store={store} />}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+// export default HomeWrapper;
+
+//==============================connect=================================
+function mapStateToProps(state){
+  return{
   }
 }
-export default HomeWrapper;
+const connectedHomeComponent=connect(mapStateToProps)(Home);
+export default connectedHomeComponent;

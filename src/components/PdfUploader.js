@@ -1,8 +1,8 @@
 import{Component} from "react"
 import '../styles/pdfUploader.css';
-import { StoreContext } from '../index';
 import  {showSelectedPdf,addPdfToList} from '../actions/pdfActionCreator'
 import {uploadPdf} from '../api/axios';
+//import { StoreContext } from '../index';
 
  class PdfUploader extends Component {
   constructor(props) {
@@ -12,15 +12,15 @@ import {uploadPdf} from '../api/axios';
   }
 
   closePdfPost=()=>{
-    this.props.store.dispatch(showSelectedPdf(false));
+    this.props.dispatch(showSelectedPdf(false));
   }
 
   uploadPdfPost=async()=>{
     const response= await uploadPdf(this.props.selectedPdfFile);
     //console.log("pdf-response",response);
     if(response.success){
-       this.props.store.dispatch(showSelectedPdf(false));
-       this.props.store.dispatch(addPdfToList(response.data));
+       this.props.dispatch(showSelectedPdf(false));
+       this.props.dispatch(addPdfToList(response.data));
        
     }
   }
@@ -40,13 +40,14 @@ import {uploadPdf} from '../api/axios';
     )
   }
 }
+export default PdfUploader;
 
-export default class PdfUploaderWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-           {(store) => <PdfUploader store={store} selectedPdfFile={this.props.selectedPdfFile}/>}
-      </StoreContext.Consumer>
-    );
-  }
-}
+// export default class PdfUploaderWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//            {(store) => <PdfUploader store={store} selectedPdfFile={this.props.selectedPdfFile}/>}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }

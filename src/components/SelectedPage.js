@@ -1,10 +1,12 @@
-import { useState } from 'react';
-//import { useToasts } from 'react-toast-notifications';
 import  '../styles/selectedPage.css';
 
 const SelectedPage = (props) => {
-  //const [email, setEmail] = useState('');
-  //const { addToast } = useToasts();
+
+  async function  handleRemovePage(){
+     
+  }
+
+
 
   return (
     <div className="SelectedPage">
@@ -13,8 +15,11 @@ const SelectedPage = (props) => {
       </div>
       <div className='pageAction'>
         <span> Page Number:{props.pageNumber}</span>
-        <button className='removePageBtn'>Cut</button>
+        <button className='removePageBtn' onClick={handleRemovePage}>Cut</button>
       </div>
+      {
+        console.log("===================SelectedPage Rendered=====================")
+      }
     </div>
   );
 };

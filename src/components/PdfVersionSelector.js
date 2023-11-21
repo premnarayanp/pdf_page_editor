@@ -1,7 +1,9 @@
 import{Component} from "react";
-import { StoreContext } from '../index';
 import '../styles/pdfVersionSelector.css';
 import {SelectorPage} from './index'
+import { connect } from 'react-redux';
+//import { StoreContext } from '../index';
+//import { connect } from "../index";
 // import { PDFDocument } from "pdf-lib";
 
   class PdfVersionSelector  extends Component {
@@ -9,40 +11,50 @@ import {SelectorPage} from './index'
     super(props);
     this.state = {  
     };
+    
   }
 
-  render(){
-    console.log("==============inside PdfVersionSelector====================");
-    const pdfPageList=this.props.pdfPageList;
 
-     //console.log("========page========",pdfPageList );
+  render(){
+    console.log("===================PdfVersionSelector Rendered=====================")
+    const pdfPageList=this.props.pdfPageList;
       return(
           <div className="PdfVersionSelector">
           {
-            pdfPageList.map((pdfPage,index) => (
-                   <SelectorPage 
+            pdfPageList.map((pdfPage,index) =>{
+              return  <SelectorPage 
                      key={`SelectorPage-${index}`}
                      pageNumber={index+1}
                      pdfPage={pdfPage}
-                     store={this.props.store}
+                     dispatch={this.props.dispatch}
                    />
-              ))
+            })
           }
-           
-          </div>
-
+        </div>
+        
     )
   }
 }
 
 
-class PdfVersionSelectorWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <PdfVersionSelector store={store} pdfVersion={this.props.pdfVersion}  pdfPageList={this.props.pdfPageList}/>}
-      </StoreContext.Consumer>
-    );
+//===============way-1 PdfVersionSelectorWrapper to get store/state===================
+// class PdfVersionSelectorWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//         {(store) => <PdfVersionSelector store={store}  pdfPageList={this.props.pdfPageList}/>}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+// export default PdfVersionSelectorWrapper;
+
+//====================way-2 connect() to get/subscribe store/state================
+function mapStateToProps(state){
+  const pdfVersion=state.pdfVersion;
+  return{
+    pdfPageList:pdfVersion.pdfPageList,
   }
 }
-export default PdfVersionSelectorWrapper;
+const connectedPdfVersionSelectorComponent=connect(mapStateToProps)(PdfVersionSelector);
+export default connectedPdfVersionSelectorComponent;

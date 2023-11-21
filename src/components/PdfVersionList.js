@@ -1,5 +1,5 @@
 import{Component} from "react";
-import { StoreContext } from '../index';
+//import { StoreContext } from '../index';
 import '../styles/pdfVersionList.css';
 import {PdfVersion} from './index'
 
@@ -12,6 +12,7 @@ import {PdfVersion} from './index'
 
 
 render(){
+  console.log("===================PdfVersionList Rendered=====================")
   const {pdfVersionList}=this.props;
     return(
         <div className="PdfVersionList">
@@ -19,26 +20,28 @@ render(){
             {pdfVersionList.map((pdfVersion,index) => (
                    <PdfVersion 
                      pdfVersion={pdfVersion} store={this.props.store}
+                     dispatch={this.props.dispatch}
                      key={`pdfVersion-${index}`}
                    />
               ))}
 
               {pdfVersionList.length===0 &&
-                    <h1>Nothing pdfVersion Please create new..</h1> 
+                    <span className="nothingPdf">No pdfVersion Please create new Or Open Another PDf</span> 
               }
         </div>
     )
   }
 }
 
+export default PdfVersionList;
 
-class PdfVersionListWrapper extends Component {
-  render() {
-    return (
-      <StoreContext.Consumer>
-        {(store) => <PdfVersionList  pdfVersionList={this.props.pdfVersionList} store={store}/>}
-      </StoreContext.Consumer>
-    );
-  }
-}
-export default PdfVersionListWrapper;
+// class PdfVersionListWrapper extends Component {
+//   render() {
+//     return (
+//       <StoreContext.Consumer>
+//         {(store) => <PdfVersionList  pdfVersionList={this.props.pdfVersionList} store={store}/>}
+//       </StoreContext.Consumer>
+//     );
+//   }
+// }
+// export default PdfVersionListWrapper;
