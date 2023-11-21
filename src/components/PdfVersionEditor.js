@@ -1,4 +1,4 @@
-import{Component} from "react";
+import{Component,createRef} from "react";
 import '../styles/pdfVersionEditor.css';
 import {PdfVersionSelected,PdfVersionSelector} from './index'
 //import { StoreContext } from '../index';
@@ -8,6 +8,8 @@ import {PdfVersionSelected,PdfVersionSelector} from './index'
     super(props);
     this.state = {  
     };
+    this.inputCheckBoxRef=createRef();
+    this.inputCheckBoxRef.current=[];
   }
 
 
@@ -15,8 +17,8 @@ import {PdfVersionSelected,PdfVersionSelector} from './index'
     console.log("===================PdfVersionEditor Rendered=====================")
       return(
           <div className="PdfVersionEditor">
-            <PdfVersionSelected  />
-            <PdfVersionSelector  />
+            <PdfVersionSelected inputCheckBoxRef={this.inputCheckBoxRef} />
+            <PdfVersionSelector inputCheckBoxRef={this.inputCheckBoxRef} />
           </div>
          
     )

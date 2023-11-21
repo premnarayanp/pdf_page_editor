@@ -5,6 +5,7 @@ import {addPageNumInPdfVersion,deletePageNumInPdfVersion} from '../actions/pdfVe
 
 const SelectorPage = (props) => {
   const[checked,setChecked]=useState(false);
+  const callbackRef=props.callbackRef;
 
   function handleInputChecked(e){
    console.log("=======e.target.checked=======",e);
@@ -23,7 +24,7 @@ const SelectorPage = (props) => {
       </div>
       <div className='pageAction'>
         <span> Page Number:{props.pageNumber}</span>
-        <input className="pageToggle" type="checkbox" checked={checked} onChange={handleInputChecked} />
+        <input ref={callbackRef} className="pageToggle" type="checkbox" checked={checked} onChange={handleInputChecked} />
       </div>
       {
         console.log("===================Selector Rendered=====================")

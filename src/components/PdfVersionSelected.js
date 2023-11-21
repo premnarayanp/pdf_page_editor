@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
   render(){
     console.log("===================PdfVersionSelected Rendered=====================")
-    const {pdfPageList,currentPdfVersion}=this.props;
+    const {pdfPageList,currentPdfVersion,inputCheckBoxRef}=this.props;
     const pageList=currentPdfVersion.pageList
 
      return(
@@ -25,6 +25,7 @@ import { connect } from 'react-redux';
                     key={`SelectedPage-${pageIndex}`}
                     pageNumber={pageIndex}
                     pdfPage={pdfPageList[pageIndex]}
+                    inputCheckBoxRef={inputCheckBoxRef}
                     dispatch={this.props.dispatch}
                   />
              ))
@@ -68,3 +69,5 @@ function mapStateToProps(state){
 }
 const connectedPdfVersionSelectedComponent=connect(mapStateToProps)(PdfVersionSelected);
 export default connectedPdfVersionSelectedComponent;
+
+

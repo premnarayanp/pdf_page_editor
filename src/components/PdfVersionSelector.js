@@ -18,15 +18,18 @@ import { connect } from 'react-redux';
   render(){
     console.log("===================PdfVersionSelector Rendered=====================")
     const pdfPageList=this.props.pdfPageList;
+    const inputCheckBoxRef=this.props.inputCheckBoxRef;
       return(
           <div className="PdfVersionSelector">
           {
             pdfPageList.map((pdfPage,index) =>{
+              var callbackRef=node=>inputCheckBoxRef.current[index]=node;
               return  <SelectorPage 
                      key={`SelectorPage-${index}`}
                      pageNumber={index+1}
                      pdfPage={pdfPage}
                      dispatch={this.props.dispatch}
+                     callbackRef={callbackRef}
                    />
             })
           }
@@ -42,7 +45,7 @@ import { connect } from 'react-redux';
 //   render() {
 //     return (
 //       <StoreContext.Consumer>
-//         {(store) => <PdfVersionSelector store={store}  pdfPageList={this.props.pdfPageList}/>}
+//         {(store) => <PdfVersionSelector store={store}  pdfPageList={this.props.pdfPageList} inputCheckBoxRef={this.props.inputCheckBoxRef}/>}
 //       </StoreContext.Consumer>
 //     );
 //   }
@@ -58,3 +61,4 @@ function mapStateToProps(state){
 }
 const connectedPdfVersionSelectorComponent=connect(mapStateToProps)(PdfVersionSelector);
 export default connectedPdfVersionSelectorComponent;
+
