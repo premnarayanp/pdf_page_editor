@@ -3,7 +3,7 @@ import '../styles/pdf.css';
 import {deletePdfToList} from '../actions/pdfActionCreator'
 import {loadPdf,downloadPdf} from '../api/axios';
 import {deletePdf,getPdfVersionPosts} from '../api/index';
-import {showPdfVersionEditor,addPdfVersionList,addPdfDetail,addPdfVersion,deleteAllPdfVersionData} from '../actions/pdfVersionActionCreator'
+import {showPdfVersionEditor,addPdfVersionList,addPdfDetail,addPdfVersion,deleteAllPdfVersionData,pdfPageListLoaded,add_UpdateEditMode} from '../actions/pdfVersionActionCreator'
 //import { StoreContext } from '../index';
 
  class Pdf extends Component {
@@ -60,6 +60,8 @@ import {showPdfVersionEditor,addPdfVersionList,addPdfDetail,addPdfVersion,delete
       this.props.dispatch(addPdfVersionList(response.data.pdfVersionList));
       this.props.dispatch(showPdfVersionEditor(false));
       this.props.dispatch(addPdfVersion(null));
+      this.props.dispatch(pdfPageListLoaded(false));
+      this.props.dispatch(add_UpdateEditMode(false));
     }else{
 
     }

@@ -9,7 +9,11 @@ import {
     ADD_PDF_PAGE_LIST,
     ADD_PAGE_NUM_IN_VERSION,
     DELETE_PAGE_NUM_IN_VERSION,
-    DELETE_All_PDF_VERSION_DATA
+    DELETE_All_PDF_VERSION_DATA,
+    IS_PDF_PAGE_LIST_LOADED,
+    ADD_EDITABLE_PAGE_INDEX_LIST,
+    ADD_EDIT_MODE,
+    UPDATE_PDF_VERSION,
    } from "../actions/actionType"
 
 
@@ -19,11 +23,13 @@ const initialPdfVersionState={
     pdfVersionList:[],
     isShowPdfVersionEditor:false,
     pdfPageList:[],
-    pdfDetail:null
+    pdfDetail:null,
+    isPdfPageListLoaded:false,
+    editablePageIndexList:[],
+    isEditModeOn:false
 };
 
    export  default function pdfVersion(state=initialPdfVersionState,action){
-
         switch(action.type){
 
             case ADD_PDF_DETAIL:
@@ -98,13 +104,49 @@ const initialPdfVersionState={
                       pdfVersionList:[],
                       isShowPdfVersionEditor:false,
                       pdfPageList:[],
-                      pdfDetail:null
+                      pdfDetail:null,
+                      isPdfPageListLoaded:false,
+                      editablePageIndexList:[],
+                      isEditModeOn:false
                     }
             }else{
                 return {
                     ...state,
                 }
             }
+
+            case IS_PDF_PAGE_LIST_LOADED:
+             return {
+                   ...state,
+                   isPdfPageListLoaded:action.isPdfPageListLoaded,
+            }
+
+            case ADD_EDITABLE_PAGE_INDEX_LIST:
+                return {
+                    ...state,
+                    editablePageIndexList:action.editablePageIndexList,
+                    isEditModeOn:action.isEditModeOn,
+            }
+
+            case ADD_EDIT_MODE:
+                return {
+                    ...state,
+                    isEditModeOn:action.isEditModeOn,
+            }
+
+            case UPDATE_PDF_VERSION:
+                const newPdfVersionList=state.pdfVersionList.map(pdfVersion=>{
+                    if(pdfVersion._id===action.pdfVersion._id){
+                      return action.pdfVersion;
+                    }
+                    return pdfVersion;
+                });
+
+                return {
+                   ...state,
+                   pdfVersionList:[...newPdfVersionList],
+            }
+            
 
             default:
              return state;

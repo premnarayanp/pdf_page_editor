@@ -9,7 +9,11 @@ import {
     ADD_PAGE_NUM_IN_VERSION,
     DELETE_PAGE_NUM_IN_VERSION,
     ADD_PDF_PAGE_LIST,
-    DELETE_All_PDF_VERSION_DATA
+    DELETE_All_PDF_VERSION_DATA,
+    IS_PDF_PAGE_LIST_LOADED,
+    ADD_EDITABLE_PAGE_INDEX_LIST,
+    ADD_EDIT_MODE,
+    UPDATE_PDF_VERSION,
    } from "./actionType"
 
 
@@ -87,3 +91,37 @@ export function deleteAllPdfVersionData(pdf_id){
         pdf_id:pdf_id
     }
 }
+
+export function pdfPageListLoaded(val){
+    return{
+        type:IS_PDF_PAGE_LIST_LOADED,
+        isPdfPageListLoaded:val
+    }
+}
+
+export function addEditablePageIndexList(indexList,isEditModeOnVal){
+    return{
+        type:ADD_EDITABLE_PAGE_INDEX_LIST,
+        editablePageIndexList:indexList,
+        isEditModeOn:isEditModeOnVal
+    }
+}
+
+export function add_UpdateEditMode(isEditModeOn){
+    return{
+        type:ADD_EDIT_MODE,
+        isEditModeOn:isEditModeOn
+    }
+}
+
+export function updatePdfVersionListItem(pdfVersion){
+    return{
+        type:UPDATE_PDF_VERSION,
+        pdfVersion
+    }
+    }
+
+
+
+
+

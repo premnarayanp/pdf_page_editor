@@ -1,6 +1,6 @@
 import{Component} from "react";
 import '../styles/pdfVersionSelector.css';
-import {SelectorPage} from './index'
+import {PdfVersion, SelectorPage} from './index'
 import { connect } from 'react-redux';
 //import { StoreContext } from '../index';
 //import { connect } from "../index";
@@ -12,6 +12,18 @@ import { connect } from 'react-redux';
     this.state = {  
     };
     
+  }
+
+  componentDidMount(){
+    //if i want to edit ,so Selector Page checked
+    const isEditModeOn=this.props.isEditModeOn;
+    if(isEditModeOn){
+      const pageNumberList=this.props.editablePageIndexList;
+      const inputCheckBoxRef=this.props.inputCheckBoxRef;
+      pageNumberList.forEach(pageNumber => {
+         inputCheckBoxRef.current[pageNumber-1].checked=true;
+      });
+    }
   }
 
 
@@ -57,6 +69,8 @@ function mapStateToProps(state){
   const pdfVersion=state.pdfVersion;
   return{
     pdfPageList:pdfVersion.pdfPageList,
+    editablePageIndexList:pdfVersion.editablePageIndexList,
+    isEditModeOn:pdfVersion.isEditModeOn,
   }
 }
 const connectedPdfVersionSelectorComponent=connect(mapStateToProps)(PdfVersionSelector);

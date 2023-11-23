@@ -13,7 +13,7 @@ import {PdfVersion} from './index'
 
 render(){
   console.log("===================PdfVersionList Rendered=====================")
-  const {pdfVersionList}=this.props;
+  const {pdfVersionList,isPdfPageListLoaded}=this.props;
     return(
         <div className="PdfVersionList">
             
@@ -21,6 +21,7 @@ render(){
                    <PdfVersion 
                      pdfVersion={pdfVersion} store={this.props.store}
                      dispatch={this.props.dispatch}
+                     isPdfPageListLoaded={isPdfPageListLoaded}
                      key={`pdfVersion-${index}`}
                    />
               ))}

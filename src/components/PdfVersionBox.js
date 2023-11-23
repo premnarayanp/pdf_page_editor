@@ -1,10 +1,10 @@
 import{Component} from "react";
 import {loadPdf} from '../api/axios';
-import {createNewPdf} from '../api/index';
+import {createNewPdf,editPdfVersion} from '../api/index';
 import {PdfVersionList,PdfVersionEditor} from './index'
 
 import { PDFDocument } from "pdf-lib";
-import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList} from '../actions/pdfVersionActionCreator'
+import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList,add_UpdateEditMode,updatePdfVersionListItem} from '../actions/pdfVersionActionCreator'
 import '../styles/pdfVersionBox.css';
 import { connect } from 'react-redux';
 //import { connect } from "../index";
@@ -18,7 +18,7 @@ class PdfVersionBox  extends Component {
     };
   }
 
-  createNewPdfVersion=async ()=>{
+  handleCreateNewPdfVersion=async ()=>{
     const {currentPdfVersion,pdfDetail}=this.props;
     //const {pdfPageList,pdfDetail}=this.props.pdfVersion;
 
@@ -46,6 +46,7 @@ class PdfVersionBox  extends Component {
 
   closeEditor=()=>{
     this.props.dispatch(showPdfVersionEditor(false));
+    this.props.dispatch(add_UpdateEditMode(false));
   }
 
 //create new pdf version on server /create new pdf
@@ -61,9 +62,23 @@ class PdfVersionBox  extends Component {
   }
 
 
+  //update pdf version on server 
+  updatePdfVersion =async()=>{
+    const currentPdfVersion=this.props.currentPdfVersion;
+
+    const response= await editPdfVersion({pageList:currentPdfVersion.pageList,pdfVersion_id:currentPdfVersion._id});
+    if(response.success){
+     // console.log("===================pdfVersion==============",response.data)
+      this.props.dispatch(add_UpdateEditMode(false));
+      this.props.dispatch(showPdfVersionEditor(false));
+      this.props.dispatch(updatePdfVersionListItem(response.data));
+    }
+  }
+
+
   render(){
     console.log("==================PdfVersionBox Rendered=====================")
-    const {isShowPdfVersionEditor,currentPdfVersion,pdfDetail,pdfVersionList}=this.props;
+    const {isShowPdfVersionEditor,currentPdfVersion,pdfDetail,pdfVersionList,isPdfPageListLoaded,isEditModeOn}=this.props;
 
     return(
           <div className="PdfVersionBox">
@@ -79,17 +94,20 @@ class PdfVersionBox  extends Component {
               {
                 isShowPdfVersionEditor? 
                 <div>
-                   <button className="closeBtn" onClick={()=>this.closeEditor()}>Close</button>
-                   <button className="final_doneBtn" onClick={()=>this.finalCreateNewPdfVersion(currentPdfVersion)} >Done</button>
+                   <button className="closeBtn" onClick={()=>this.closeEditor()}>Cancel</button>
+                   {
+                    isEditModeOn?<button className="update_btn" onClick={()=>this.updatePdfVersion()} >Update</button>
+                    :<button className="final_doneBtn" onClick={()=>this.finalCreateNewPdfVersion()} >Upload</button>
+                   }
                 </div>
-                :<button className="createNewBtn" onClick={()=>this.createNewPdfVersion()}>Create New</button>
+                :<button className="createNewBtn" onClick={()=>this.handleCreateNewPdfVersion()}>Create New</button>
               }
             </header>
             }
 
             {isShowPdfVersionEditor?
                      <PdfVersionEditor/>
-                    :<PdfVersionList  dispatch={this.props.dispatch} pdfVersionList={pdfVersionList} />
+                    :<PdfVersionList isPdfPageListLoaded={isPdfPageListLoaded} dispatch={this.props.dispatch} pdfVersionList={pdfVersionList} />
               }
             
           </div>
@@ -118,6 +136,8 @@ function mapStateToProps(state){
     pdfDetail:pdfVersion.pdfDetail,
     isShowPdfVersionEditor:pdfVersion.isShowPdfVersionEditor,
     pdfVersionList:pdfVersion.pdfVersionList,
+    isPdfPageListLoaded:pdfVersion.isPdfPageListLoaded,
+    isEditModeOn:pdfVersion.isEditModeOn,
   }
 }
 const connectedPdfVersionBoxComponent=connect(mapStateToProps)(PdfVersionBox);
