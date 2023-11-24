@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router ,HashRouter} from 'react-router-dom';
+
 import { ToastProvider } from 'react-toast-notifications';
 //import React, { createContext } from 'react';
 
@@ -79,11 +80,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
      <ToastProvider autoDismiss autoDismissTimeout={5000} placement="top-left">
-        <Router> 
+        <HashRouter basename='/'> 
           <Provider store={store}>
             <App/>
           </Provider>,
-        </Router>
+        </HashRouter>
     </ToastProvider>
   </>
 );
