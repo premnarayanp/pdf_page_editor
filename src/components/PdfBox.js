@@ -16,9 +16,13 @@ import { connect } from 'react-redux';
   }
 
   handlePdfSelect =(e)=>{
-    this.setState({selectedPdfFile:e.target.files[0]})
-    this.props.dispatch(showSelectedPdf(true));
-    //this.props.store.dispatch(showSelectedPdf(true));
+    if(e.target.files[0].type==="application/pdf"){
+      this.setState({selectedPdfFile:e.target.files[0]});
+      this.props.dispatch(showSelectedPdf(true));
+      //this.props.store.dispatch(showSelectedPdf(true));
+    }else{
+
+    }
   }
 
   render(){

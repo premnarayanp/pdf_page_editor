@@ -97,7 +97,7 @@ const initialPdfVersionState={
 
             //delete/erase pdfVersion all data by pdf_id match 
             case DELETE_All_PDF_VERSION_DATA:
-            if(state.pdfDetail._id===action.pdf_id){
+            if(state.pdfDetail && state.pdfDetail._id===action.pdf_id){
                 window.alert("Your all Associated PdfVersion or current Working Version will be Deleted");
                    return {
                       currentPdfVersion:null,
