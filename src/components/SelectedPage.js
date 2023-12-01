@@ -2,24 +2,12 @@ import  '../styles/selectedPage.css';
 import {deletePageNumInPdfVersion} from '../actions/pdfVersionActionCreator'
 
 const SelectedPage = (props) => {
+  const {inputCheckBoxRef,pageNumber,dispatch}=props;
 
   async function  handleRemovePage(){
-    const inputCheckBoxRef=props.inputCheckBoxRef;
-    const pageNumber=props.pageNumber;
     inputCheckBoxRef.current[pageNumber-1].checked=false;
-     props.dispatch(deletePageNumInPdfVersion(pageNumber));
-
-    //  //console.log("===========inputCheckBoxRef================",inputCheckBoxRef.current[pageNumber-1]);
-    //  //console.log("===inputCheckBoxRef[pageNumber].checked====", inputCheckBoxRef.current[pageNumber].checked);
-    
-    //  // When checkbox value unchecked,then after i delete the page, Otherwise page deleted but checkbox not unchecked,Because 
-    //  props.store.dispatch(deletePageNumInPdfVersion(pageNumber));
-    //   setTimeout(()=>{
-    //     inputCheckBoxRef.current[pageNumber-1].checked=false;
-    //   },100);
-     }
-
-
+    dispatch(deletePageNumInPdfVersion(pageNumber));
+  }
 
   return (
     <div className="SelectedPage">

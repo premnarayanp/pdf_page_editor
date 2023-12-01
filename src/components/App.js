@@ -5,13 +5,18 @@ import {  Home ,Login,Signup } from '../pages/index';
 import  Navbar  from './Navbar';
 import '../styles/app.css'
 import { connect } from 'react-redux';
-//import { connect } from '../index';
 
-class App extends React.Component{
-  render(){
+function App(props){
    //const {auth}=this.props.store.getState();
-   const {auth,dispatch}=this.props;
+   const {auth,dispatch}=props;
    
+   const PrivateRoute = ({ children}) => {
+    if (auth.user) {
+        return children;
+    }
+    return <Navigate to="/users/login" />
+  }
+
    const Page404=()=>{
       return <h1>404</h1>
     };
@@ -22,8 +27,7 @@ class App extends React.Component{
           <Navbar/>
            
           <Routes>
-             {/* <Route path="/" element={<Home store={store}/>} /> */}
-             <Route path="/" element={ auth.user?<Home />:<Navigate to="/users/login" />}/>
+             <Route path="/" element={ <PrivateRoute> <Home /> </PrivateRoute>}/>
              <Route exact path="/users/login" element={<Login auth={auth} dispatch={dispatch} />} />
              <Route exact path="/users/signup" element={<Signup auth={auth} dispatch={dispatch} />} /> 
              <Route path="*" element={<Page404 />} />
@@ -32,9 +36,16 @@ class App extends React.Component{
     );
   }
 
+//====================way-1 connect() to get/subscribe store/state================
+function mapStateToProps(state){
+  return{
+   auth:state.auth
+  }
 }
+const connectedAppComponent=connect(mapStateToProps)(App);
+export default connectedAppComponent;
 
-//===============way-1 AppWrapper to get store/state===================
+//===============way-2 AppWrapper to get store/state===================
 // class AppWrapper extends Component {
 //   render() {
 //     return (
@@ -45,12 +56,3 @@ class App extends React.Component{
 //   }
 // }
 // export default AppWrapper;
-
-//====================way-2 connect() to get/subscribe store/state================
-function mapStateToProps(state){
-  return{
-   auth:state.auth
-  }
-}
-const connectedAppComponent=connect(mapStateToProps)(App);
-export default connectedAppComponent;

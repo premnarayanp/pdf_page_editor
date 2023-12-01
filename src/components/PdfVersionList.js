@@ -1,26 +1,16 @@
-import{Component} from "react";
-//import { StoreContext } from '../index';
 import '../styles/pdfVersionList.css';
 import {PdfVersion} from './index'
 
-  class PdfVersionList  extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  
-    };
-  }
-
-
-render(){
+function PdfVersionList(props) {
+  const {pdfVersionList,isPdfPageListLoaded,dispatch}=props;
   console.log("===================PdfVersionList Rendered=====================")
-  const {pdfVersionList,isPdfPageListLoaded}=this.props;
     return(
         <div className="PdfVersionList">
             
             {pdfVersionList.map((pdfVersion,index) => (
                    <PdfVersion 
-                     pdfVersion={pdfVersion} store={this.props.store}
-                     dispatch={this.props.dispatch}
+                     pdfVersion={pdfVersion}
+                     dispatch={dispatch}
                      isPdfPageListLoaded={isPdfPageListLoaded}
                      key={`pdfVersion-${index}`}
                    />
@@ -31,18 +21,6 @@ render(){
               }
         </div>
     )
-  }
 }
 
 export default PdfVersionList;
-
-// class PdfVersionListWrapper extends Component {
-//   render() {
-//     return (
-//       <StoreContext.Consumer>
-//         {(store) => <PdfVersionList  pdfVersionList={this.props.pdfVersionList} store={store}/>}
-//       </StoreContext.Consumer>
-//     );
-//   }
-// }
-// export default PdfVersionListWrapper;

@@ -1,36 +1,22 @@
-import{Component} from "react";
+import { useEffect } from 'react';
 import '../styles/pdfVersionSelector.css';
-import {PdfVersion, SelectorPage} from './index'
+import {SelectorPage} from './index'
 import { connect } from 'react-redux';
-//import { StoreContext } from '../index';
-//import { connect } from "../index";
-// import { PDFDocument } from "pdf-lib";
 
-  class PdfVersionSelector  extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  
-    };
-    
-  }
+function PdfVersionSelector(props) {
+  const {pdfPageList,inputCheckBoxRef,isEditModeOn,editablePageIndexList,dispatch}=props;
 
-  componentDidMount(){
+  useEffect(()=>{
     //if i want to edit ,so Selector Page checked
-    const isEditModeOn=this.props.isEditModeOn;
     if(isEditModeOn){
-      const pageNumberList=this.props.editablePageIndexList;
-      const inputCheckBoxRef=this.props.inputCheckBoxRef;
+      const pageNumberList=editablePageIndexList;
       pageNumberList.forEach(pageNumber => {
          inputCheckBoxRef.current[pageNumber-1].checked=true;
       });
     }
-  }
+  });
 
-
-  render(){
     console.log("===================PdfVersionSelector Rendered=====================")
-    const pdfPageList=this.props.pdfPageList;
-    const inputCheckBoxRef=this.props.inputCheckBoxRef;
       return(
           <div className="PdfVersionSelector">
           {
@@ -40,7 +26,7 @@ import { connect } from 'react-redux';
                      key={`SelectorPage-${index}`}
                      pageNumber={index+1}
                      pdfPage={pdfPage}
-                     dispatch={this.props.dispatch}
+                     dispatch={dispatch}
                      callbackRef={callbackRef}
                    />
             })
@@ -48,23 +34,8 @@ import { connect } from 'react-redux';
         </div>
         
     )
-  }
 }
 
-
-//===============way-1 PdfVersionSelectorWrapper to get store/state===================
-// class PdfVersionSelectorWrapper extends Component {
-//   render() {
-//     return (
-//       <StoreContext.Consumer>
-//         {(store) => <PdfVersionSelector store={store}  pdfPageList={this.props.pdfPageList} inputCheckBoxRef={this.props.inputCheckBoxRef}/>}
-//       </StoreContext.Consumer>
-//     );
-//   }
-// }
-// export default PdfVersionSelectorWrapper;
-
-//====================way-2 connect() to get/subscribe store/state================
 function mapStateToProps(state){
   const pdfVersion=state.pdfVersion;
   return{

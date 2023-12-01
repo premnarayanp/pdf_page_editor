@@ -1,25 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {logout} from'../actions/authActionCreator';
 import '../styles/navbar.css'
 import { connect } from 'react-redux';
 //import { connect } from '../index';
 
- class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+ function Navbar(props) {
 
- logoutFromDevice=()=>{
-    this.props.dispatch(logout());
+const logoutFromDevice=()=>{
+    props.dispatch(logout());
     //console.log("====================logout=====================")
   }
-  
-  render() {
+
     console.log("========================Navbar Rendered=====================")
-    const {auth}=this.props;
+    const {auth}=props;
     return (
       auth.user?
       <div className="nav">
@@ -27,7 +21,7 @@ import { connect } from 'react-redux';
            <button className='menuButton'>Home</button>
         </Link>
 
-        <button className='menuButton' onClick={this.logoutFromDevice}>Log out</button>
+        <button className='menuButton' onClick={logoutFromDevice}>Log out</button>
 
         <div className='rounded-img-container'>
           <img src={require('../assets/myPhoto.jpg')} alt="user-pic" />
@@ -45,10 +39,7 @@ import { connect } from 'react-redux';
        </Link>
       </div>
     );
-  }
 }
-//export default Navbar;
-
 
 function mapStateToProps(state){
   return{

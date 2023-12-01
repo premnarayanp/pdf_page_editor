@@ -1,21 +1,12 @@
-import{Component} from "react";
 import '../styles/pdfVersionSelected.css';
 import {SelectedPage} from './index'
 import { connect } from 'react-redux';
-//import { connect } from "../index";
-//import { StoreContext } from '../index';
 
-  class PdfVersionSelected  extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  
-    };
-  }
+  function PdfVersionSelected(props){
 
-  render(){
-    console.log("===================PdfVersionSelected Rendered=====================")
-    const {pdfPageList,currentPdfVersion,inputCheckBoxRef}=this.props;
+    const {pdfPageList,currentPdfVersion,inputCheckBoxRef,dispatch}=props;
     const pageList=currentPdfVersion.pageList
+    console.log("===================PdfVersionSelected Rendered=====================")
 
      return(
       <div className="PdfVersionSelected">
@@ -26,7 +17,7 @@ import { connect } from 'react-redux';
                     pageNumber={pageIndex}
                     pdfPage={pdfPageList[pageIndex]}
                     inputCheckBoxRef={inputCheckBoxRef}
-                    dispatch={this.props.dispatch}
+                    dispatch={dispatch}
                   />
              ))
 
@@ -41,25 +32,8 @@ import { connect } from 'react-redux';
          </div>
 
    )
- }
 }
 
-
-
-
-//===============way-1 PdfVersionSelectorWrapper to get store/state===================
-// class PdfVersionSelectedWrapper extends Component {
-//   render() {
-//     return (
-//       <StoreContext.Consumer>
-//         {(store) => <PdfVersionSelected store={store} pdfVersion={this.props.pdfVersion}  pdfPageList={this.props.pdfPageList} inputCheckBoxRef={this.props.inputCheckBoxRef}/>}
-//       </StoreContext.Consumer>
-//     );
-//   }
-// }
-// export default PdfVersionSelectedWrapper;
-
-//====================way-2 connect() to get/subscribe store/state================
 function mapStateToProps(state){
   const pdfVersion=state.pdfVersion;
   return{

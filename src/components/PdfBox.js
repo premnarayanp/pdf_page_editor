@@ -1,4 +1,4 @@
-import{Component} from "react";
+import{ useState} from "react";
 import { PdfUploader,Pdf } from "./index";
 import '../styles/pdfBox.css'
 import  {showSelectedPdf} from '../actions/pdfActionCreator'
@@ -7,27 +7,21 @@ import { connect } from 'react-redux';
 //import { StoreContext } from '../index';
 
 //left sidebar
-  class PdfBox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedPdfFile :'',
-    };
-  }
+  function PdfBox(props){
+   const[selectedPdfFile ,setSelectedPdfFile]=useState("");
+   const {dispatch,pdf}=props;
+   const {isShowSelectedPdf,pdfList}=pdf;
 
-  handlePdfSelect =(e)=>{
+ const  handlePdfSelect =(e)=>{
     if(e.target.files[0].type==="application/pdf"){
-      this.setState({selectedPdfFile:e.target.files[0]});
-      this.props.dispatch(showSelectedPdf(true));
-      //this.props.store.dispatch(showSelectedPdf(true));
+       setSelectedPdfFile(e.target.files[0]);
+       dispatch(showSelectedPdf(true));
     }else{
 
     }
   }
 
-  render(){
     console.log("========================PdfBox Rendered=====================")
-     const {isShowSelectedPdf,pdfList}=this.props.pdf;
      
     return(
         <div className="PdfBox">
@@ -39,7 +33,7 @@ import { connect } from 'react-redux';
                    <div><span>+</span></div>
                  </label>
                  <input id="selectMediaInput" className="mediaBtn" type="file"   
-                    onChange={(e)=>this.handlePdfSelect(e)}
+                    onChange={(e)=>handlePdfSelect(e)}
                  />
                 </div>
             </div>
@@ -47,7 +41,7 @@ import { connect } from 'react-redux';
             <div className="pdfBoxMain">
               {pdfList.map((pdfFile,index) => (
                    <Pdf 
-                     pdfFile={pdfFile} dispatch={this.props.dispatch}
+                     pdfFile={pdfFile} dispatch={dispatch}
                      key={`pdfFile-${index}`}
                    />
               ))}
@@ -57,16 +51,25 @@ import { connect } from 'react-redux';
               }
 
               {isShowSelectedPdf &&
-                     <PdfUploader  dispatch={this.props.dispatch} selectedPdfFile={this.state.selectedPdfFile}/>
+                     <PdfUploader  dispatch={dispatch} selectedPdfFile={selectedPdfFile}/>
               }
             </div>
            
         </div>
     )
-  }
 }
 
-//===============way-1 PdfBoxWrapper to get store/state===================
+//====================way-1 connect() to get/subscribe store/state================
+function mapStateToProps(state){
+  return{
+   pdf:state.pdf
+  }
+}
+const connectedPdfBoxComponent=connect(mapStateToProps)(PdfBox);
+export default connectedPdfBoxComponent;
+
+
+//===============way-2 PdfBoxWrapper to get store/state===================
 // class PdfBoxWrapper extends Component {
 //   render() {
 //     return (
@@ -77,12 +80,3 @@ import { connect } from 'react-redux';
 //   }
 // }
 //export default PdfBoxWrapper;
-
-//====================way-2 connect() to get/subscribe store/state================
-function mapStateToProps(state){
-  return{
-   pdf:state.pdf
-  }
-}
-const connectedPdfBoxComponent=connect(mapStateToProps)(PdfBox);
-export default connectedPdfBoxComponent;

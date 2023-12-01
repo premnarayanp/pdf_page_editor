@@ -8,9 +8,7 @@ import { PDFDocument } from "pdf-lib";
 import {showPdfVersionEditor,addPdfVersion,addPdfPageList,pdfPageListLoaded,addEditablePageIndexList} from '../actions/pdfVersionActionCreator'
 
 const PdfVersion = (props) => {
-const pdfVersion=props.pdfVersion;
-const isPdfPageListLoaded=props.isPdfPageListLoaded;
-
+const {dispatch,pdfVersion,isPdfPageListLoaded}=props;
 
 const handleDownloadPdfVersion= async()=>{
   const response= await downloadPdfVersion(pdfVersion._id);
@@ -44,31 +42,30 @@ const handleDeletePdPdfVersion=async(pdfVersion_id)=>{
   const response= await deletePdfVersion(pdfVersion_id);
   if(response.success){
     //console.log("=====pdfVersion==========",response.data)
-    props.dispatch(deletePdfVersionToList(response.data.pdfVersion));
+   dispatch(deletePdfVersionToList(response.data.pdfVersion));
 
   }
 }
 
 
 const editPdfVersion= async()=>{
-  
   if(!isPdfPageListLoaded){
     const response= await loadPdf(pdfVersion.pdf);
     if(response.success){
         const pdfDoc= await PDFDocument.load(response.data);
         const pdfPageList= await pdfDoc.getPages();
 
-       props.dispatch(addPdfPageList(pdfPageList));
-       props.dispatch(addPdfVersion(pdfVersion));
-       props.dispatch(pdfPageListLoaded(true));
-       props.dispatch(addEditablePageIndexList(pdfVersion.pageList,true))
-       props.dispatch(showPdfVersionEditor(true));
+       dispatch(addPdfPageList(pdfPageList));
+       dispatch(addPdfVersion(pdfVersion));
+       dispatch(pdfPageListLoaded(true));
+       dispatch(addEditablePageIndexList(pdfVersion.pageList,true))
+       dispatch(showPdfVersionEditor(true));
     }
   }else{
       //if already  pdfPageList then just open editor and update pdfVersion pageList=[],
-       props.dispatch(addPdfVersion(pdfVersion));
-       props.dispatch(addEditablePageIndexList(pdfVersion.pageList,true))
-       props.dispatch(showPdfVersionEditor(true));
+       dispatch(addPdfVersion(pdfVersion));
+       dispatch(addEditablePageIndexList(pdfVersion.pageList,true))
+       dispatch(showPdfVersionEditor(true));
   }
 } 
   return (
