@@ -20,8 +20,6 @@ function App(props){
    const Page404=()=>{
       return <h1>404</h1>
     };
-     console.log("========================App Rendered=====================")
-
     return (
       <div className="App">
           <Navbar/>

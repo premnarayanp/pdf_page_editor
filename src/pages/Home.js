@@ -22,7 +22,6 @@ function Home(props){
 
   },);
 
-    console.log("========================Home Rendered=====================")
     return (
       <div className="Home">
         <PdfBox/>

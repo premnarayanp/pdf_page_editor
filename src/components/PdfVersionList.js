@@ -3,7 +3,6 @@ import {PdfVersion} from './index'
 
 function PdfVersionList(props) {
   const {pdfVersionList,isPdfPageListLoaded,dispatch}=props;
-  console.log("===================PdfVersionList Rendered=====================")
     return(
         <div className="PdfVersionList">
             

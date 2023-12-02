@@ -5,7 +5,6 @@ import {PdfVersionSelected,PdfVersionSelector} from './index'
 
   function PdfVersionEditor(){
     const inputCheckBoxRef=useRef([]);
-    console.log("===================PdfVersionEditor Rendered=====================")
       return(
           <div className="PdfVersionEditor">
             <PdfVersionSelected inputCheckBoxRef={inputCheckBoxRef} />

@@ -22,8 +22,6 @@ import { useToasts } from 'react-toast-notifications';
       });
     }
   }
-
-    console.log("========================PdfBox Rendered=====================")
      
     return(
         <div className="PdfBox">

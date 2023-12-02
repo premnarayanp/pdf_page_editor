@@ -1,4 +1,3 @@
-//import { useToasts } from 'react-toast-notifications';
 import  '../styles/pdfVersion.css';
 import {deletePdfVersion} from '../api/index';
 import {loadPdfVersion,downloadPdfVersion} from '../api/axios';
@@ -66,7 +65,7 @@ const handleDeletePdPdfVersion=async(pdfVersion_id)=>{
   }
 }
 
-
+//edit pdf version
 const editPdfVersion= async()=>{
   if(!isPdfPageListLoaded){
     const response= await loadPdf(pdfVersion.pdf);
@@ -100,9 +99,6 @@ const editPdfVersion= async()=>{
                <button className="deleteBtn" onClick={()=>handleDeletePdPdfVersion(pdfVersion._id)}>delete</button>
                <button className="createNewBtn" onClick={()=>editPdfVersion(pdfVersion._id)}>Edit</button>
              </div>
-             {
-              console.log("===================PdfVersion Rendered=====================")
-             }
         </div>
   );
 };

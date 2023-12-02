@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
     const {pdfPageList,currentPdfVersion,inputCheckBoxRef,dispatch}=props;
     const pageList=currentPdfVersion.pageList
-    console.log("===================PdfVersionSelected Rendered=====================")
+    // console.log("===================PdfVersionSelected Rendered=====================")
 
      return(
       <div className="PdfVersionSelected">

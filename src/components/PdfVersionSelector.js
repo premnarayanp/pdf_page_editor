@@ -16,7 +16,6 @@ function PdfVersionSelector(props) {
     }
   });
 
-    console.log("===================PdfVersionSelector Rendered=====================")
       return(
           <div className="PdfVersionSelector">
           {

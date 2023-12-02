@@ -64,7 +64,6 @@ function PdfVersionBox(props){
   const updatePdfVersion =async()=>{
     const response= await editPdfVersion({pageList:currentPdfVersion.pageList,pdfVersion_id:currentPdfVersion._id});
     if(response.success){
-     // console.log("===================pdfVersion==============",response.data)
       dispatch(add_UpdateEditMode(false));
       dispatch(showPdfVersionEditor(false));
       dispatch(updatePdfVersionListItem(response.data));
@@ -78,8 +77,6 @@ function PdfVersionBox(props){
       });
     }
   }
-
-    console.log("==================PdfVersionBox Rendered=====================")
 
     return(
           <div className="PdfVersionBox">

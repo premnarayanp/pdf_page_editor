@@ -73,7 +73,6 @@ function Pdf(props) {
     }
   }
 
-  console.log("===================Pdf Rendered=====================")
     return(
         <div className="Pdf">
              <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"  onClick={()=>openVersionList()}/>

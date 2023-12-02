@@ -8,7 +8,7 @@ const SelectorPage = (props) => {
   const callbackRef=props.callbackRef;
 
   function handleInputChecked(e){
-   console.log("=======e.target.checked=======",e);
+   //console.log("=======e.target.checked=======",e);
      setChecked(e.target.checked);
     if(e.target.checked){
        props.dispatch(addPageNumInPdfVersion(props.pageNumber));
@@ -26,9 +26,6 @@ const SelectorPage = (props) => {
         <span> Page Number:{props.pageNumber}</span>
         <input ref={callbackRef} className="pageToggle" type="checkbox" checked={checked} onChange={handleInputChecked} />
       </div>
-      {
-        console.log("===================Selector Rendered=====================")
-      }
     </div>
   );
 };

@@ -10,7 +10,7 @@ const Login = (props) => {
   const [loggingIn, setLoggingIn] = useState(false);
   const { addToast } = useToasts();
   const {auth,dispatch} =props
-  const {isLoginSuccess,user,message}=auth;
+  const {isLoginSuccess}=auth;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +40,6 @@ const Login = (props) => {
     setLoggingIn(false);
   };
 
-  console.log("===========isloginsuccess==========",isLoginSuccess)
   if (isLoginSuccess ) {
     return (
       <Navigate to="/" replace={true} />

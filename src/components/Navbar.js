@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {logout} from'../actions/authActionCreator';
 import '../styles/navbar.css'
 import { connect } from 'react-redux';
-//import { connect } from '../index';
 
  function Navbar(props) {
 
@@ -11,8 +10,6 @@ const logoutFromDevice=()=>{
     props.dispatch(logout());
     //console.log("====================logout=====================")
   }
-
-    console.log("========================Navbar Rendered=====================")
     const {auth}=props;
     return (
       auth.user?

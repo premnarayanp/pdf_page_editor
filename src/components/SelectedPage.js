@@ -20,9 +20,6 @@ const SelectedPage = (props) => {
           <img src={require('../assets/crossbtn.png')} alt='cut'/>
         </button>
       </div>
-      {
-        console.log("===================SelectedPage Rendered=====================")
-      }
     </div>
   );
 };

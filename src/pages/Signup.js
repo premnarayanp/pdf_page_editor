@@ -13,7 +13,7 @@ const Signup = (props) => {
   const { addToast } = useToasts();
 
   const {auth,dispatch} =props
-  const {isSignUpSuccess,message}=auth;
+  const {isSignUpSuccess}=auth;
   // const {auth} =props.store.getState();
   // const {isSignUpSuccess,message}=auth;
 
