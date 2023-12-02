@@ -6,10 +6,12 @@ import { PDFDocument } from "pdf-lib";
 import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList,add_UpdateEditMode,updatePdfVersionListItem} from '../actions/pdfVersionActionCreator'
 import '../styles/pdfVersionBox.css';
 import { connect } from 'react-redux';
+import { useToasts } from 'react-toast-notifications';
 
 //Right Side Bar
 function PdfVersionBox(props){
   const {dispatch,isShowPdfVersionEditor,currentPdfVersion,pdfDetail,pdfVersionList,isPdfPageListLoaded,isEditModeOn}=props;
+ const {addToast}=useToasts();
 
   const handleCreateNewPdfVersion=async ()=>{
     //same pdf load  from server only one time
@@ -46,6 +48,14 @@ function PdfVersionBox(props){
      // console.log("===================pdfVersion==============",response.data)
       dispatch(addPdfVersionToList(response.data));
       dispatch(showPdfVersionEditor(false));
+
+      addToast('PdfVersion Successfully Uploaded', {
+        appearance: 'success',
+      });
+    }else{
+      addToast(response.message, {
+      appearance: 'error',
+      });
     }
   }
 
@@ -58,6 +68,14 @@ function PdfVersionBox(props){
       dispatch(add_UpdateEditMode(false));
       dispatch(showPdfVersionEditor(false));
       dispatch(updatePdfVersionListItem(response.data));
+
+      addToast('PdfVersion Successfully Updated', {
+        appearance: 'success',
+      });
+    }else{
+      addToast(response.message, {
+      appearance: 'error',
+      });
     }
   }
 

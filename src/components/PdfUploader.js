@@ -1,10 +1,12 @@
 import '../styles/pdfUploader.css';
 import  {showSelectedPdf,addPdfToList} from '../actions/pdfActionCreator'
 import {uploadPdf} from '../api/axios';
-
- function PdfUploader(props){
+import { useToasts } from 'react-toast-notifications';
+ 
+function PdfUploader(props){
   const {dispatch, selectedPdfFile}=props;
-  
+  const { addToast } = useToasts();
+
   const closePdfPost=()=>{
      dispatch(showSelectedPdf(false));
   }
@@ -16,7 +18,14 @@ import {uploadPdf} from '../api/axios';
        dispatch(showSelectedPdf(false));
        dispatch(addPdfToList(response.data));
        
-    }
+       addToast('Pdf Successfully Uploaded', {
+         appearance: 'success',
+       });
+     }else{
+       addToast(response.message, {
+       appearance: 'error',
+       });
+     }
   }
     return(
         <div className="PdfUploader">

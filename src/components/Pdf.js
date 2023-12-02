@@ -3,10 +3,12 @@ import {deletePdfToList} from '../actions/pdfActionCreator'
 import {loadPdf,downloadPdf} from '../api/axios';
 import {deletePdf,getPdfVersionPosts} from '../api/index';
 import {showPdfVersionEditor,addPdfVersionList,addPdfDetail,addPdfVersion,deleteAllPdfVersionData,pdfPageListLoaded,add_UpdateEditMode} from '../actions/pdfVersionActionCreator'
+import { useToasts } from 'react-toast-notifications';
 
 function Pdf(props) {
   const {pdfFile,dispatch}=props;
-  
+  const { addToast } = useToasts();
+
   const downloadPdfFile= async()=>{
     const response= await downloadPdf(pdfFile._id);
     if(response.success){
@@ -19,6 +21,14 @@ function Pdf(props) {
         document.body.appendChild(link);
         link.click();
         link.parentNode.removeChild(link);
+
+      addToast('Pdf Successfully Downloaded', {
+          appearance: 'success',
+      });
+    }else{
+       addToast(response.message, {
+       appearance: 'error',
+      });
     }
   }
 
@@ -38,8 +48,13 @@ function Pdf(props) {
     if(response.success){
       dispatch(deletePdfToList(response.data.pdf));
       dispatch(deleteAllPdfVersionData(pdfFile._id));
-      // this.props.dispatch(addPdfDetail(null));
-      // this.props.dispatch(addPdfVersionList([]));
+      addToast('Pdf Successfully Deleted', {
+        appearance: 'success',
+      });
+    }else{
+      addToast(response.message, {
+      appearance: 'error',
+      });
     }
   }
 

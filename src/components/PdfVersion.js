@@ -6,12 +6,15 @@ import {deletePdfVersionToList} from '../actions/pdfVersionActionCreator';
 import {loadPdf} from '../api/axios';
 import { PDFDocument } from "pdf-lib";
 import {showPdfVersionEditor,addPdfVersion,addPdfPageList,pdfPageListLoaded,addEditablePageIndexList} from '../actions/pdfVersionActionCreator'
+import { useToasts } from 'react-toast-notifications';
 
 const PdfVersion = (props) => {
 const {dispatch,pdfVersion,isPdfPageListLoaded}=props;
+const { addToast } = useToasts();
 
 const handleDownloadPdfVersion= async()=>{
   const response= await downloadPdfVersion(pdfVersion._id);
+
   if(response.success){
       //Build a URL from the file
       var file = new Blob([response.data], {type: 'application/pdf'});
@@ -22,6 +25,13 @@ const handleDownloadPdfVersion= async()=>{
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
+      addToast('PdfVersion Successfully Downloaded', {
+        appearance: 'success',
+    });
+  }else{
+     addToast(response.message, {
+     appearance: 'error',
+    });
   }
 }
 
@@ -33,10 +43,12 @@ const handleOpenPdfVersion=async()=>{
        var file = new Blob([response.data], {type: 'application/pdf'});
        const fileURL = URL.createObjectURL(file);
        window.open(fileURL);
-  }
+  }else{
+    addToast(response.message, {
+    appearance: 'error',
+   });
+ }
 }
-
-
 
 const handleDeletePdPdfVersion=async(pdfVersion_id)=>{
   const response= await deletePdfVersion(pdfVersion_id);
@@ -44,6 +56,13 @@ const handleDeletePdPdfVersion=async(pdfVersion_id)=>{
     //console.log("=====pdfVersion==========",response.data)
    dispatch(deletePdfVersionToList(response.data.pdfVersion));
 
+    addToast('PdfVersion Successfully Deleted', {
+      appearance: 'success',
+    });
+  }else{
+   addToast(response.message, {
+    appearance: 'error',
+   });
   }
 }
 

@@ -3,21 +3,23 @@ import { PdfUploader,Pdf } from "./index";
 import '../styles/pdfBox.css'
 import  {showSelectedPdf} from '../actions/pdfActionCreator'
 import { connect } from 'react-redux';
-//import { connect } from '../index';
-//import { StoreContext } from '../index';
+import { useToasts } from 'react-toast-notifications';
 
 //left sidebar
   function PdfBox(props){
    const[selectedPdfFile ,setSelectedPdfFile]=useState("");
    const {dispatch,pdf}=props;
    const {isShowSelectedPdf,pdfList}=pdf;
+   const { addToast } = useToasts();
 
  const  handlePdfSelect =(e)=>{
     if(e.target.files[0].type==="application/pdf"){
        setSelectedPdfFile(e.target.files[0]);
        dispatch(showSelectedPdf(true));
-    }else{
-
+   }else{
+      addToast('Please select only pdf file, You could not upload non-pdf file', {
+      appearance: 'error',
+      });
     }
   }
 
