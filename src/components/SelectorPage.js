@@ -6,6 +6,7 @@ import {addPageNumInPdfVersion,deletePageNumInPdfVersion} from '../actions/pdfVe
 const SelectorPage = (props) => {
   const[checked,setChecked]=useState(false);
   const callbackRef=props.callbackRef;
+  const pageImg=props.pdfPage;
 
   function handleInputChecked(e){
    //console.log("=======e.target.checked=======",e);
@@ -20,7 +21,7 @@ const SelectorPage = (props) => {
   return (
     <div className="SelectorPage">
       <div className='pdfOrPageOfPdf'>
-        <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"/>
+        <img src={pageImg} alt="PDF_Image"/>
       </div>
       <div className='pageAction'>
         <span> Page Number:{props.pageNumber}</span>

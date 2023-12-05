@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
                  <SelectedPage
                     key={`SelectedPage-${pageIndex}`}
                     pageNumber={pageIndex}
-                    pdfPage={pdfPageList[pageIndex]}
+                    pdfPage={pdfPageList[pageIndex-1]}
                     inputCheckBoxRef={inputCheckBoxRef}
                     dispatch={dispatch}
                   />

@@ -2,7 +2,7 @@ import '../styles/pdfUploader.css';
 import  {showSelectedPdf,addPdfToList} from '../actions/pdfActionCreator'
 import {uploadPdf} from '../api/axios';
 import { useToasts } from 'react-toast-notifications';
- 
+
 function PdfUploader(props){
   const {dispatch, selectedPdfFile}=props;
   const { addToast } = useToasts();
@@ -27,6 +27,7 @@ function PdfUploader(props){
        });
      }
   }
+
     return(
         <div className="PdfUploader">
              <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"/>

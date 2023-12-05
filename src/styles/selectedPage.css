@@ -4,17 +4,38 @@
     background-color: rgb(227, 195, 145);
     position: relative;
     padding: 5px 10px;
+    padding-bottom: 0;
     display: inline-block;
+    margin-left: 5px;
 }
 
-.pdfOrPageOfPdf {
-    height: 80%;
+.pdfPage {
+    height: 83%;
     width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-.pdfOrPageOfPdf img {
+.pdfPage:hover {
+    /* height: 80vh; */
+    height: auto;
+    width: 38vw;
+    overflow: hidden;
+    position: fixed;
+    top: 50px;
+    bottom: 5px;
+    right: 50%;
+    left: 50%;
+    z-index: 5;
+    border: solid 5px gray;
+    border-radius: 10px;
+}
+
+.pdfPage img {
     height: 100%;
     width: 100%;
+    object-fit: cover;
+    /* background-size: cover; */
 }
 
 .pageAction {

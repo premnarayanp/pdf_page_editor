@@ -2,16 +2,66 @@ import {loadPdf} from '../api/axios';
 import {createNewPdf,editPdfVersion} from '../api/index';
 import {PdfVersionList,PdfVersionEditor} from './index'
 
-import { PDFDocument } from "pdf-lib";
 import {addPdfVersionToList,showPdfVersionEditor,addPdfVersion,addPdfPageList,add_UpdateEditMode,updatePdfVersionListItem} from '../actions/pdfVersionActionCreator'
 import '../styles/pdfVersionBox.css';
 import { connect } from 'react-redux';
 import { useToasts } from 'react-toast-notifications';
 
+import * as PDFJS from 'pdfjs-dist';
+import * as PDFJSWorker from "pdfjs-dist/build/pdf.worker";
+//import { getDocument } from 'pdfjs-dist';
+
+
 //Right Side Bar
 function PdfVersionBox(props){
+
   const {dispatch,isShowPdfVersionEditor,currentPdfVersion,pdfDetail,pdfVersionList,isPdfPageListLoaded,isEditModeOn}=props;
- const {addToast}=useToasts();
+  const {addToast}=useToasts();
+
+  //convert pdf page to image for custom pdf rendering
+  const convertPdfToImagesAndRender = async (data) => {
+    PDFJS.GlobalWorkerOptions.workerSrc = PDFJSWorker;
+   
+    // const pdfPageList = [];
+    // const pdf = await PDFJS.getDocument(data).promise;
+    // const canvas = document.createElement("canvas");
+    // for (let i = 0; i < pdf.numPages; i++) {
+    //   const page = await pdf.getPage(i + 1);
+    //   const viewport = page.getViewport({ scale: 1 });
+    //   const context = canvas.getContext("2d");
+    //   canvas.height = viewport.height;
+    //   canvas.width = viewport.width;
+    //   await page.render({ canvasContext: context, viewport: viewport }).promise;
+    //   pdfPageList.push(canvas.toDataURL());
+    //-------------------------------------------------------
+
+    const imagesList = [];
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("className", "canv");
+    const pdf = await PDFJS.getDocument({ data }).promise;
+    for (let i = 1; i <= pdf.numPages; i++) {
+      var page = await pdf.getPage(i);
+      var viewport = page.getViewport({ scale: 1.5 });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      var render_context = {
+      canvasContext: canvas.getContext("2d"),
+      viewport: viewport,
+    };
+    await page.render(render_context).promise;
+    let img = canvas.toDataURL("image/png");
+    imagesList.push(img);
+  
+
+    }
+    canvas.remove();
+    console.log("===========imagesList============",imagesList);
+    dispatch(addPdfPageList(imagesList));
+    dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
+    dispatch(showPdfVersionEditor(true));
+  }
+
+
 
   const handleCreateNewPdfVersion=async ()=>{
     //same pdf load  from server only one time
@@ -22,12 +72,12 @@ function PdfVersionBox(props){
     if(!currentPdfVersion){
       const response= await loadPdf(pdfDetail._id);
       if(response.success){
-          const pdfDoc= await PDFDocument.load(response.data);
-          const pdfPageList= await pdfDoc.getPages();
 
-         dispatch(addPdfPageList(pdfPageList));
-         dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
-         dispatch(showPdfVersionEditor(true));
+        convertPdfToImagesAndRender(response.data);
+        //  const pdfPageList= convertPdfToImages(response.data);
+        //  dispatch(addPdfPageList(pdfPageList));
+        //  dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
+        //  dispatch(showPdfVersionEditor(true));
       }
     }else{
       //if already  pdfPageList then just open editor and update pdfVersion pageList=[],

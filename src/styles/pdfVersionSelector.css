@@ -6,10 +6,10 @@
     justify-content: space-between;
     flex-direction: column;
     text-align: center;
-    overflow: auto;
-    overflow-x: hidden;
-    white-space: nowrap;
     padding-top: 5px;
     padding-bottom: 50px;
     box-sizing: border-box;
+    overflow: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
 }

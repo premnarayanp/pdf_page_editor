@@ -2,7 +2,7 @@ import  '../styles/selectedPage.css';
 import {deletePageNumInPdfVersion} from '../actions/pdfVersionActionCreator'
 
 const SelectedPage = (props) => {
-  const {inputCheckBoxRef,pageNumber,dispatch}=props;
+  const {inputCheckBoxRef,pageNumber,dispatch,pdfPage}=props;
 
   async function  handleRemovePage(){
     inputCheckBoxRef.current[pageNumber-1].checked=false;
@@ -11,8 +11,8 @@ const SelectedPage = (props) => {
 
   return (
     <div className="SelectedPage">
-        <div className='pdfOrPageOfPdf'>
-        <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"/>
+        <div className='pdfPage'>
+        <img src={pdfPage} alt="PDF_Image"/>
       </div>
       <div className='pageAction'>
         <span> Page Number:{props.pageNumber}</span>
