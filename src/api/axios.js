@@ -22,7 +22,11 @@ import { API_URLS,LOCAL_STORAGE_TOKEN_KEY } from '../utils';
 
   const formData=new FormData();
   if (body) {
-    formData.append("pdf",body.content);
+    //formData.append("pdf",body.content);
+    // console.log("============pdf==========",body.content.pdf);
+    // console.log("============imageFile==========",body.content.imageFile);
+    formData.append("pdf",body.content.pdf);
+    formData.append("pdfThumb",body.content.imageFile);
     config.data=formData
   }
   

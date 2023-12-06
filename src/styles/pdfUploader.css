@@ -12,9 +12,17 @@
     position: absolute;
 }
 
-.PdfUploader img {
+.pdfThumb {
     height: 85%;
     width: 100%;
+    overflow: hidden;
+}
+
+.PdfUploader img {
+    height: auto;
+    width: 310px;
+    /* object-fit: cover; */
+    background-size: cover;
 }
 
 .PdfUploader button {

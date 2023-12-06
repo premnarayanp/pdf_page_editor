@@ -55,7 +55,7 @@ function PdfVersionBox(props){
 
     }
     canvas.remove();
-    console.log("===========imagesList============",imagesList);
+    //console.log("===========imagesList============",imagesList);
     dispatch(addPdfPageList(imagesList));
     dispatch(addPdfVersion({pageList:[],pdf_id:pdfDetail._id}));
     dispatch(showPdfVersionEditor(true));

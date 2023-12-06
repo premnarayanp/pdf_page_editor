@@ -1,5 +1,5 @@
 .Pdf {
-    height: 175px;
+    height: 250px;
     width: 350px;
     margin-left: 0;
     border: solid 1px gray;
@@ -11,10 +11,18 @@
     background-color: lightsalmon;
 }
 
-.Pdf img {
-    height: 65%;
-    width: 70%;
+.Pdf .pdfThumb {
+    height: 80%;
+    width: 100%;
+    overflow: hidden;
     cursor: pointer;
+}
+
+.Pdf img {
+    height: auto;
+    width: 100%;
+    object-fit: cover;
+    /* background-size: cover; */
 }
 
 .Pdf button {

@@ -8,6 +8,7 @@ import { useToasts } from 'react-toast-notifications';
 function Pdf(props) {
   const {pdfFile,dispatch}=props;
   const { addToast } = useToasts();
+  const API_ROOT = 'http://localhost:8398';
 
   const downloadPdfFile= async()=>{
     const response= await downloadPdf(pdfFile._id);
@@ -73,9 +74,14 @@ function Pdf(props) {
     }
   }
 
+  console.log("===pdfFile.pdfThumbPath=======",pdfFile.pdfThumbPath);
+//require('../assets/pdf_thumbnail_2.png')
     return(
         <div className="Pdf">
-             <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"  onClick={()=>openVersionList()}/>
+             <div className='pdfThumb'>
+                <img src={API_ROOT+pdfFile.pdfThumbPath} alt="PDF_Image"  onClick={()=>openVersionList()}/>
+              </div>
+
              <div className="pdfTitle">
                <span>{pdfFile.originalname}</span>
              </div>
