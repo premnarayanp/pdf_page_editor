@@ -7,6 +7,9 @@ import { PDFDocument } from "pdf-lib";
 import {showPdfVersionEditor,addPdfVersion,addPdfPageList,pdfPageListLoaded,addEditablePageIndexList} from '../actions/pdfVersionActionCreator'
 import { useToasts } from 'react-toast-notifications';
 
+import * as PDFJS from 'pdfjs-dist';
+import * as PDFJSWorker from "pdfjs-dist/build/pdf.worker";
+
 const PdfVersion = (props) => {
 const {dispatch,pdfVersion,isPdfPageListLoaded}=props;
 const { addToast } = useToasts();
@@ -70,14 +73,7 @@ const editPdfVersion= async()=>{
   if(!isPdfPageListLoaded){
     const response= await loadPdf(pdfVersion.pdf);
     if(response.success){
-        const pdfDoc= await PDFDocument.load(response.data);
-        const pdfPageList= await pdfDoc.getPages();
-
-       dispatch(addPdfPageList(pdfPageList));
-       dispatch(addPdfVersion(pdfVersion));
-       dispatch(pdfPageListLoaded(true));
-       dispatch(addEditablePageIndexList(pdfVersion.pageList,true))
-       dispatch(showPdfVersionEditor(true));
+      convertPdfToImagesAndRender(response.data);
     }
   }else{
       //if already  pdfPageList then just open editor and update pdfVersion pageList=[],
@@ -86,6 +82,42 @@ const editPdfVersion= async()=>{
        dispatch(showPdfVersionEditor(true));
   }
 } 
+
+
+  //convert pdf page to image for custom pdf rendering
+  const convertPdfToImagesAndRender = async (data) => {
+    PDFJS.GlobalWorkerOptions.workerSrc = PDFJSWorker;
+   
+   
+    const imagesList = [];
+    const canvas = document.createElement("canvas");
+    canvas.setAttribute("className", "canv");
+    const pdf = await PDFJS.getDocument({ data }).promise;
+    for (let i = 1; i <= pdf.numPages; i++) {
+      var page = await pdf.getPage(i);
+      var viewport = page.getViewport({ scale: 1.5 });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      var render_context = {
+      canvasContext: canvas.getContext("2d"),
+      viewport: viewport,
+    };
+    await page.render(render_context).promise;
+    let img = canvas.toDataURL("image/png");
+    imagesList.push(img);
+  
+
+    }
+    canvas.remove();
+    //console.log("===========imagesList============",imagesList);
+       dispatch(addPdfPageList(imagesList));
+       dispatch(addPdfVersion(pdfVersion));
+       dispatch(pdfPageListLoaded(true));
+       dispatch(addEditablePageIndexList(pdfVersion.pageList,true))
+       dispatch(showPdfVersionEditor(true));
+  }
+
+
   return (
     <div className="PdfVersion">
              <img src={require('../assets/pdf_thumbnail_2.png')} alt="PDF_Image"/>

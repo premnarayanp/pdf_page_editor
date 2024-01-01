@@ -29,7 +29,7 @@ import { useToasts } from 'react-toast-notifications';
                <span>My Pdf </span>
 
                <div className="pdfInputSelector">
-                 <label for="selectMediaInput">
+                 <label htmlFor="selectMediaInput">
                    <div><span>+</span></div>
                  </label>
                  <input id="selectMediaInput" className="mediaBtn" type="file"   
